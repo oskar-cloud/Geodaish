@@ -30,7 +30,7 @@ def register(sub):
         p.add_argument("--profile", required=True)
         p.add_argument("--model", default="models/demo-normal.zip")
         p.add_argument("--jump-key", choices=["space","up"], default="space", help="Choose the game's enabled jump binding")
-        p.add_argument("--seconds", type=positive_float, default=60)
+        p.add_argument("--seconds", type=positive_float, default=60 if mode == "probe" else 600)
         p.add_argument("--fps", type=positive_float, default=30)
         p.add_argument("--output")
         p.add_argument("--headless", action="store_true")
@@ -118,7 +118,13 @@ def detect_command(args):
 
 def session_command(args):
     from geodaish.windows.runtime import run_session
-    run_session(args)
+    from datetime import datetime
+    while run_session(args):
+        # A retry is a fresh, explicitly armed session with a separate report.
+        args.arm_after = None
+        if args.output:
+            path = Path(args.output)
+            args.output = str(path.with_name(f"{path.name}-retry-{datetime.now():%H%M%S%f}"))
 
 
 def measure_command(args):

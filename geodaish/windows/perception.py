@@ -3,7 +3,7 @@
 No game memory, seed, level geometry or simulator state is read here.
 """
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 import json
 from pathlib import Path
 
@@ -11,6 +11,10 @@ import cv2
 import numpy as np
 
 from geodaish.vision import Box, PerceptionError
+
+
+class CubeMissing(PerceptionError):
+    """Ground is visible, but no calibrated cube was found. Not proof of death."""
 
 
 @dataclass(frozen=True)
@@ -49,6 +53,17 @@ class Profile:
     def scale(self):
         # One normal cube corresponds to DashEnv.player_size, not one unit.
         return self.cube_px / 0.8
+
+    def resized(self, width, height):
+        """Preserve calibration for proportional window resizing only."""
+        if (width, height) == (self.width, self.height):
+            return self
+        sx, sy = width / self.width, height / self.height
+        if abs(sx / sy - 1) > 0.015:
+            raise PerceptionError(f"Window aspect ratio changed: calibrated {self.width}x{self.height}, "
+                                  f"now {width}x{height}. Recalibrate or restore the window ratio")
+        return replace(self, width=width, height=height,
+                       ground_y=round(self.ground_y * sy), cube_px=self.cube_px * (sx + sy) / 2)
 
     @classmethod
     def load(cls, path):
@@ -98,8 +113,9 @@ def _components(mask):
 
 
 class Observer:
-    def __init__(self, profile):
+    def __init__(self, profile, *, strict_hazards=True):
         self.profile = profile
+        self.strict_hazards = strict_hazards
         self.reset()
 
     def reset(self):
@@ -113,7 +129,8 @@ class Observer:
     def observe(self, frame, stamp):
         p = self.profile
         if frame.shape != (p.height, p.width, 3) or frame.dtype != np.uint8:
-            raise PerceptionError("Window size changed; recalibrate before controlling")
+            raise PerceptionError(f"Window size changed: calibrated {p.width}x{p.height}, "
+                                  f"now {frame.shape[1]}x{frame.shape[0]}; re-arm or recalibrate")
         if not np.isfinite(stamp) or (self.previous_time is not None and stamp <= self.previous_time):
             raise PerceptionError("Frame timestamps must increase")
         hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
@@ -136,7 +153,8 @@ class Observer:
                       and 0.7 < b.width/b.height < 1.4
                       and colour[b.top:b.bottom,b.left:b.right].sum() >= p.cube_px**2*0.18]
         if len(candidates) != 1:
-            raise PerceptionError(f"Expected one cube; detected {len(candidates)}. Control stopped")
+            error = CubeMissing if not candidates else PerceptionError
+            raise error(f"Expected one cube; detected {len(candidates)}. Control stopped")
         colour_box = candidates[0]
         cx = (colour_box.left+colour_box.right)/2
         cy = (colour_box.top+colour_box.bottom)/2
@@ -166,7 +184,7 @@ class Observer:
             if (p.cube_px*0.6 <= w <= p.cube_px*1.3 and
                     p.cube_px*0.6 <= h <= p.cube_px*1.2 and 0.35 <= fill <= 0.72):
                 spikes.append(Box(x0,y0,x0+w,p.ground_y))
-            elif x0 > cube.right and h > p.cube_px*0.5:
+            elif self.strict_hazards and x0 > cube.right and h > p.cube_px*0.5:
                 raise PerceptionError("Unsupported block/platform or ambiguous obstacle ahead")
         spikes.sort(key=lambda b:b.left)
         groups = []

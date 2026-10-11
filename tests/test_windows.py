@@ -139,6 +139,38 @@ def test_vision_rejects_menu_missing_cube_and_resize():
         o.observe(frame,1)
 
 
+def test_proportional_resize_preserves_physical_observations():
+    cv2 = pytest.importorskip("cv2")
+    from geodaish.windows.perception import Observer, Profile
+    from geodaish.vision import PerceptionError
+    p = Profile.from_selection(scene_image(), (250,260,40,40), 300)
+    resized = p.resized(1200,675)
+    assert resized.cube_px == 60 and resized.ground_y == 450
+    original = Observer(p)
+    larger = Observer(resized)
+    for stamp, x in [(0,600),(.05,580),(.1,560)]:
+        a = original.observe(scene_image(x), stamp)
+        b = larger.observe(cv2.resize(scene_image(x), (1200,675), interpolation=cv2.INTER_NEAREST), stamp)
+    assert b.ready and b.observation == pytest.approx(a.observation, abs=.02)
+    with pytest.raises(PerceptionError, match="aspect ratio"):
+        p.resized(800,400)
+
+
+def test_update_suspend_releases_key_but_still_monitors_focus():
+    game = Game()
+    now = [1.0]
+    c = JumpController(game, clock=lambda:now[0])
+    c.arm()
+    c.apply(1,1)
+    c.suspend("PPO update")
+    now[0] = 20
+    c.check()
+    assert not c.stopped and not c.held and game.events == [True, False]
+    game.focus = False
+    c.check()
+    assert c.stopped and c.reason == "Game lost focus"
+
+
 def test_live_report_is_local_geometry_by_default_and_stops(tmp_path,monkeypatch):
     pytest.importorskip("cv2")
     from types import SimpleNamespace

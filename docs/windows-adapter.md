@@ -48,7 +48,9 @@ kommandots tre sekunders väntetid:
 
 Markera hela den upprätta kuben på marken och tryck Enter. Klicka sedan på
 marklinjens överkant. En pausmeny dimmar bilden och fungerar inte som kalibrering.
-Om bilden visar ett hopp: ta en ny bild. Storlek/färg ändras inte automatiskt.
+Om bilden visar ett hopp: ta en ny bild. Samma bildproportioner kan skalas till
+en annan fönsterstorlek före armering. Ny kubfärg, ändrat bildformat eller
+kameraläge kräver ny kalibrering. Storleksändring under styrning stoppar försöket.
 Det går också att ange `--cube X Y BREDD HÖJD --ground-y Y` utan urvalsfönster.
 
 ```powershell
@@ -71,8 +73,10 @@ mellan spikarna men används inte för att uppskatta löphastigheten.
 Välj Geometry Dash och tryck **F8**, eller välj **ARM in 3 seconds** och återgå
 till spelet. Första modellbeslutet kräver en tillförlitlig rörlig scen. **F9**,
 den röda **STOP**-knappen och stängning av adapterfönstret avslutar sessionen.
-Stoppet är låst: starta en ny session för att armera igen. Standardgränsen är
-60 sekunder; ändra med `--seconds`. CLI-fel och stopporsaker syns i rapporten.
+Stoppet är låst: välj **Nytt försök** och armera med F8 igen. Fönstret ligger
+kvar efter stopp och visar orsaken, antal giltiga bilder och rapportens sökväg.
+**Stäng** avslutar programmet. Standardgränsen för preview/run är tio minuter
+(probe: 60 sekunder); ändra med `--seconds`.
 
 En separat kontrolltråd släpper adapterns hållna tangent vid fokusförlust,
 F9 eller mer än 350 ms utan uppdatering. Saknad kub/mark, ändrad fönsterstorlek,
@@ -166,3 +170,21 @@ För enbart lokal visning, kör `npm run dev` och öppna
 för att garantera att inga uppladdningar sker, även om miljövariabler är satta.
 Om två adapterprocesser körs samtidigt kan de konkurrera om tangenten/rapporten;
 kör en adapter åt gången.
+
+## Om programmet stänger sig eller inte hoppar
+
+En rättning 2026-10-11 hanterar tillfälligt låsta rapportfiler på Windows.
+Tidigare kunde `WinError 5 / Access is denied` vid byte av `windows-live.json`
+avsluta hela adaptern. Nu behålls den senaste kompletta rapporten och nästa
+publicering försöker igen utan att stoppa styrningen. Webbsidan kan under tiden
+visa en äldre rapport eller kontakt saknas.
+
+I samma felsökning hade spelets klientyta ändrats från 1480×833 till 1285×723.
+Den gamla profilen gav noll giltiga bilder. Proportionell skalning är nu testad
+mot den mindre spelbilden: 102 giltiga bilder, 64 styrda bilder och fem
+hopptryck. Sessionen stoppade vid block som saknar stöd, och hoppknappen släpptes.
+Det är ett test av skärmläsning/styrning, ingen klarad hel bana.
+
+Stoppfönstret och knappen **Nytt försök** har kontrollerats i Windows. Ett nytt
+försök får en separat rapport och kräver ny armering. F8 aktiverar inte modellen
+förrän kub, mark och rörelse har kunnat läsas tillförlitligt.

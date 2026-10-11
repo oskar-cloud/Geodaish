@@ -36,6 +36,7 @@ def run_session(args):
         raise ValueError(f"{output} is not empty; choose a new output directory")
     output.mkdir(parents=True,exist_ok=True)
     stop = threading.Event()
+    finished = threading.Event()
     arm = threading.Event()
     updates = queue.Queue(maxsize=1)
     controller = JumpController(game)
@@ -97,6 +98,11 @@ def run_session(args):
                            "observation":None,"action":None,"sent":False,"error":None}
                     scene = None
                     try:
+                        if not controller.armed:
+                            fitted = profile.resized(frame.shape[1], frame.shape[0])
+                            if fitted != observer.profile:
+                                observer = Observer(fitted)
+                                stats["effective_profile"] = asdict(fitted)
                         scene = observer.observe(frame,stamp)
                         stats["valid_frames"] += 1
                         row.update(observation=scene.observation.tolist(),height=scene.height,
@@ -160,22 +166,31 @@ def run_session(args):
             except Exception as exc:
                 stats["release_error"] = str(exc)
             if capture:
-                capture.close()
+                try:
+                    capture.close()
+                except Exception as exc:
+                    stats["capture_close_error"] = str(exc)
             stats.update(stop_reason=stats["stop_reason"] or controller.reason,
                          presses=controller.presses,releases=controller.releases,
                          key_released=not controller.held,seconds=time.perf_counter()-started)
-            (output/"summary.json").write_text(json.dumps(stats,indent=2)+"\n",encoding="utf-8")
             stop.set()
             try:
+                (output/"summary.json").write_text(json.dumps(stats,indent=2)+"\n",encoding="utf-8")
                 reporter.emit(stats,controller,final=True)
+            except Exception as exc:
+                stats["report_error"] = str(exc)
             finally:
-                reporter.close()
+                try:
+                    reporter.close()
+                finally:
+                    finished.set()
 
     thread = threading.Thread(target=worker,name="geodaish-capture")
+    restart = False
     if args.headless:
         thread.start()
         try:
-            while not stop.wait(0.1):
+            while not finished.wait(0.1):
                 pass
         except KeyboardInterrupt:
             stop.set()
@@ -183,46 +198,21 @@ def run_session(args):
         finally:
             thread.join(timeout=3)
     else:
-        import tkinter as tk
-        from PIL import ImageTk
-        root = tk.Tk()
-        root.title("Geodaish / Windows pixel control")
-        root.geometry("700x480+10+50")
-        label = tk.Label(root,text="Starting screen capture…",bg="#101418",fg="white")
-        label.pack(fill="both",expand=True)
-        controls = tk.Frame(root)
-        controls.pack(fill="x")
+        from geodaish.windows.window import session_window
         def halt():
             try:
                 controller.stop("STOP button / window closed")
             finally:
                 stop.set()
-        if controls_enabled:
-            tk.Button(controls,text="ARM in 3 seconds (or F8 in game)",command=lambda:root.after(3000,arm.set)).pack(side="left",padx=5,pady=7)
-        tk.Button(controls,text="STOP / F9",bg="#bf263f",fg="white",font=("Segoe UI",14,"bold"),command=halt).pack(side="right",padx=5,pady=7)
-        root.protocol("WM_DELETE_WINDOW",halt)
-        def refresh():
-            try:
-                frame = updates.get_nowait()
-                if isinstance(frame,str):
-                    label.configure(image="",text=frame)
-                else:
-                    preview = Image.fromarray(frame)
-                    preview.thumbnail((700,420))
-                    label.image = ImageTk.PhotoImage(preview)
-                    label.configure(image=label.image,text="")
-            except queue.Empty:
-                pass
-            if stop.is_set():
-                root.destroy()
-            else:
-                root.after(40,refresh)
         thread.start()
-        root.after(40,refresh)
         try:
-            root.mainloop()
+            restart = session_window(title="Geodaish / Windows pixel control", updates=updates,
+                finished=finished, on_stop=halt, on_arm=arm.set if controls_enabled else None,
+                result=stats, report_path=output / "summary.json")
         finally:
-            halt()
+            if not finished.is_set():
+                halt()
             thread.join(timeout=3)
     print(json.dumps(stats,indent=2))
     print(f"Session report: {output / 'summary.json'}")
+    return restart

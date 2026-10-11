@@ -62,6 +62,7 @@ class SnapshotPublisher:
         self.url = url
         self.token = token
         self.last_error = None
+        self.local_error = None
         self._pending = None
         self._closed = False
         self._condition = threading.Condition()
@@ -82,10 +83,26 @@ class SnapshotPublisher:
         payload = json.dumps(snapshot, separators=(",", ":"), allow_nan=False).encode()
         if len(payload) > 512 * 1024:
             raise ValueError("Dashboard snapshot exceeds 512 KiB")
-        self.path.parent.mkdir(parents=True, exist_ok=True)
         temp = self.path.with_name(f".{self.path.name}.{uuid4().hex}.tmp")
-        temp.write_bytes(payload)
-        os.replace(temp, self.path)
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            temp.write_bytes(payload)
+            os.replace(temp, self.path)
+            self.local_error = None
+        except OSError as error:
+            # On Windows a reader/antivirus may temporarily prevent replacing
+            # the JSON file. Telemetry must never stop gameplay or training.
+            # Keep the last complete snapshot; the next publish retries without
+            # blocking the input thread or exposing a partially written file.
+            message = f"{type(error).__name__}: {error.strerror or str(error)}"
+            if self.local_error != message:
+                print(f"Dashboard file unavailable ({message}); retrying next report. Control continues.", flush=True)
+            self.local_error = message
+        finally:
+            try:
+                temp.unlink(missing_ok=True)
+            except OSError:
+                pass
         if self._thread:
             with self._condition:
                 self._pending = payload

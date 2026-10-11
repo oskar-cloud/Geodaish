@@ -58,6 +58,34 @@ def test_uploader_uses_auth_and_sends_final_update(tmp_path):
     assert requests[-1].get_header("Authorization") == "Bearer " + "x" * 32
 
 
+def test_windows_reader_lock_keeps_last_report_and_recovers(tmp_path):
+    file = tmp_path / "live.json"
+    publisher = SnapshotPublisher(file)
+    publisher.publish({"step": 1})
+    with patch("geodaish.dashboard.os.replace", side_effect=PermissionError(13, "Access is denied")):
+        publisher.publish({"step": 2})
+    assert publisher.local_error
+    assert json.loads(file.read_text()) == {"step": 1}
+    assert not list(tmp_path.glob(".*.tmp"))
+    publisher.publish({"step": 3})
+    assert publisher.local_error is None
+    assert json.loads(file.read_text()) == {"step": 3}
+
+
+def test_unwritable_local_report_does_not_block_remote_publish(tmp_path):
+    requests = []
+    class Response:
+        status = 200
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+    with patch("geodaish.dashboard.urlopen", side_effect=lambda request, timeout: requests.append(request) or Response()):
+        publisher = SnapshotPublisher(tmp_path / "live.json", "https://example.vercel.app", "x" * 32)
+        with patch("geodaish.dashboard.Path.write_bytes", side_effect=OSError("disk unavailable")):
+            publisher.publish({"step": 4})
+        publisher.close()
+    assert json.loads(requests[-1].data) == {"step": 4}
+
+
 def test_network_rejection_preserves_local_training_report(tmp_path):
     file = tmp_path / "live.json"
     with patch("geodaish.dashboard.urlopen", side_effect=HTTPError("https://example.vercel.app", 401, "Rejected", {}, None)):

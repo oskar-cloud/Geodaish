@@ -15,6 +15,7 @@ class JumpController:
         self.clock = clock
         self.lock = threading.RLock()
         self.armed = False
+        self.session_active = False
         self.held = False
         self.stopped = False
         self.reason = "Not armed"
@@ -31,6 +32,7 @@ class JumpController:
             if self.game.key_down(self.game.jump_vk):
                 raise Stopped("Release the physical jump key before arming")
             self.armed = True
+            self.session_active = True
             self.reason = "Armed"
             self.heartbeat = self.clock()
 
@@ -62,6 +64,18 @@ class JumpController:
                 self.presses += int(desired)
                 self.releases += int(not desired)
 
+    def suspend(self, reason="Waiting between attempts"):
+        """Release ownership while PPO updates; retain focus and F9 monitoring."""
+        with self.lock:
+            if self.stopped:
+                raise Stopped(self.reason)
+            if self.held:
+                self.game.send_jump(False)
+                self.held = False
+                self.releases += 1
+            self.armed = False
+            self.reason = reason
+
     def stop(self, reason="Stopped by user"):
         with self.lock:
             if not self.stopped:
@@ -78,7 +92,7 @@ class JumpController:
         with self.lock:
             if self.game.key_down(0x78):  # F9; never ESC (also used by Computer Use)
                 self.stop("F9 emergency stop")
-            elif self.armed and not self.game.focused():
+            elif self.session_active and not self.game.focused():
                 self.stop("Game lost focus")
             elif self.armed and self.clock()-self.heartbeat > self.timeout:
                 self.stop("Watchdog: capture/inference stalled")
