@@ -10,3 +10,5 @@ dist/
 build/
 .env
 .env.*
+node_modules/
+.vercel/

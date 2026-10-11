@@ -7,6 +7,22 @@ till det riktiga Geometry Dash.
 
 ![Geodaish](docs/preview.png)
 
+## Se träningen i webbläsaren
+
+En dashboard med riktiga träningskurvor, valideringstabell och modelluppspelning
+finns nu i repot. Den är förberedd för **GitHub → Vercel** och visar den sparade
+demokörningen direkt. Starta lokalt med Node.js 22+:
+
+```bash
+npm run dev
+```
+
+Öppna `http://127.0.0.1:5173`. Kör `geodaish train` i en annan terminal för att
+följa ett nytt pass lokalt. För liveuppdateringar på Vercel kopplar du Upstash
+Redis och en rapporteringsnyckel. Träningen körs på din Mac.
+
+**[Fullständig guide för Vercel och livekoppling →](docs/dashboard.md)**
+
 ## Varför börja med en egen miljö?
 
 | | Egen simulator | Riktiga Geometry Dash |

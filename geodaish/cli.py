@@ -4,6 +4,7 @@ import argparse
 import csv
 from datetime import datetime
 import json
+import math
 from pathlib import Path
 import time
 
@@ -16,6 +17,13 @@ def positive_int(value):
     number = int(value)
     if number < 1:
         raise argparse.ArgumentTypeError("must be a positive integer")
+    return number
+
+
+def positive_float(value):
+    number = float(value)
+    if not math.isfinite(number) or number <= 0:
+        raise argparse.ArgumentTypeError("must be a positive finite number")
     return number
 
 
@@ -66,6 +74,7 @@ def load_model(path):
 
 
 def train(args):
+    from geodaish.dashboard import TrainingReporter
     import torch
     from stable_baselines3 import PPO
     from stable_baselines3.common.callbacks import BaseCallback
@@ -88,6 +97,7 @@ def train(args):
             self.last_eval = 0
 
         def _on_step(self):
+            reporter.observe(self.locals.get("infos", []), self.num_timesteps)
             if self.num_timesteps - self.last_eval < args.eval_every:
                 return True
             self.last_eval = self.num_timesteps
@@ -107,12 +117,15 @@ def train(args):
             if metrics["mean_reward"] > self.best:
                 self.best = metrics["mean_reward"]
                 self.model.save(output / "best")
+            reporter.validation(self.model, metrics)
             return True
 
     env = make_vec_env(DashEnv, n_envs=args.envs, seed=args.seed,
                        env_kwargs={"difficulty": args.difficulty},
                        monitor_dir=str(output / "episodes"))
     model = None
+    reporter = None
+    finished = False
     started = time.perf_counter()
     interrupted = False
     try:
@@ -129,6 +142,8 @@ def train(args):
         print("Ctrl+C saves the current model. Timesteps round up to full rollouts.", flush=True)
         callback = ValidationCallback()
         initial_steps = model.num_timesteps
+        reporter = TrainingReporter(args, output, initial_steps)
+        print(f"Dashboard report: {args.dashboard_file}", flush=True)
         try:
             model.learn(total_timesteps=args.steps, callback=callback,
                         reset_num_timesteps=not bool(args.resume))
@@ -139,6 +154,9 @@ def train(args):
         final_validation = evaluate(model, difficulty=args.difficulty, episodes=10, seed=10000)
         if final_validation["mean_reward"] > callback.best:
             model.save(output / "best")
+        reporter.validation(model, final_validation)
+        reporter.finish(model.num_timesteps, "interrupted" if interrupted else "completed")
+        finished = True
         elapsed = time.perf_counter() - started
         summary = {"timesteps_this_run": model.num_timesteps - initial_steps,
                    "seconds": elapsed, "interrupted": interrupted,
@@ -148,6 +166,8 @@ def train(args):
         print(f"Next: geodaish evaluate --model '{output / 'best.zip'}' --difficulty {args.difficulty}")
         print(f"Watch: geodaish watch --model '{output / 'best.zip'}' --difficulty {args.difficulty}")
     finally:
+        if reporter is not None and not finished:
+            reporter.finish(model.num_timesteps, "failed")
         env.close()
 
 
@@ -226,16 +246,19 @@ def benchmark(args):
 def main():
     parser = argparse.ArgumentParser(description="Geodaish — Geometry Dash-inspired RL lab")
     sub = parser.add_subparsers(dest="command", required=True)
-    for command in ("train", "evaluate", "play", "watch", "benchmark"):
+    for command in ("train", "evaluate", "play", "watch", "benchmark", "export-dashboard"):
         p = sub.add_parser(command)
         p.add_argument("--difficulty", choices=DIFFICULTIES, default="normal")
-        p.add_argument("--seed", type=int, default=20000 if command == "evaluate" else 42)
+        p.add_argument("--seed", type=int, default=20000 if command in ("evaluate", "export-dashboard") else 42)
         if command == "train":
             p.add_argument("--steps", type=positive_int, default=2000000)
             p.add_argument("--envs", type=positive_int, default=4)
             p.add_argument("--eval-every", type=positive_int, default=20000)
             p.add_argument("--output")
             p.add_argument("--resume", help="Continue training a trusted local PPO checkpoint")
+            p.add_argument("--dashboard-file", default="runs/live.json", help="Local dashboard snapshot")
+            p.add_argument("--dashboard-url", help="Vercel URL; alternatively set GEODAISH_DASHBOARD_URL")
+            p.add_argument("--report-every", type=positive_float, default=5.0, help="Telemetry interval in seconds")
             p.set_defaults(func=train)
         elif command == "evaluate":
             p.add_argument("--model")
@@ -248,9 +271,16 @@ def main():
                 choice.add_argument("--model")
                 choice.add_argument("--policy", choices=["random", "heuristic"])
             p.set_defaults(func=play)
-        else:
+        elif command == "benchmark":
             p.add_argument("--steps", type=positive_int, default=100000)
             p.set_defaults(func=benchmark)
+        else:
+            from geodaish.dashboard import export_dashboard
+            p.add_argument("--run", required=True, help="Completed run directory with original CSV logs")
+            p.add_argument("--model", required=True)
+            p.add_argument("--evaluation", help="Optional separate evaluation JSON")
+            p.add_argument("--output", default="web/data/demo.json")
+            p.set_defaults(func=export_dashboard)
     args = parser.parse_args()
     if args.seed < 0:
         parser.error("--seed must be nonnegative")

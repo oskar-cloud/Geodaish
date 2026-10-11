@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101418">
+  <meta name="description" content="Följ Geodaish lära sig hoppa. Verkliga PPO-resultat, träningskurvor och uppspelningar från modellen.">
+  <title>Geodaish — Training lab</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Till innehållet</a>
+  <svg class="symbols" aria-hidden="true"><defs>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 3v17h17M8 15l4-5 4 2 5-8"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-8z"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 14 4-4M8 16l-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 12a4 4 0 0 0 6 0l5-5a4 4 0 0 0-6-6l-1 1" transform="translate(1 0) scale(.92)"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 3h7v7m0-7L10 14M10 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2 7M3 4v7h7"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  </defs></svg>
+
+  <aside class="sidebar">
+    <a href="#overview" class="brand" aria-label="Geodaish, översikt"><span class="brand-cube"><i></i><i></i></span><span>geodaish<span class="brand-dot">.</span></span></a>
+    <div class="workspace"><span class="workspace-icon">G</span><div>Reinforcement learning<small>Personligt projekt</small></div><span class="workspace-chevron">⌄</span></div>
+    <span class="nav-label">WORKSPACE</span>
+    <nav aria-label="Huvudmeny">
+      <a href="#overview" data-view="overview" class="nav-item active"><svg><use href="#i-grid"/></svg>Översikt<span class="nav-count">01</span></a>
+      <a href="#evaluation" data-view="evaluation" class="nav-item"><svg><use href="#i-chart"/></svg>Utvärdering</a>
+      <a href="#connect" data-view="connect" class="nav-item"><svg><use href="#i-link"/></svg>Koppla träningen</a>
+    </nav>
+    <div class="sidebar-note"><span class="little-square"></span><strong>Ett hopp i taget.</strong><p>Små beslut.<br>Miljontals försök.<br>En bättre agent.</p><div class="tiny-landscape"><span></span><i></i><i></i><i></i></div></div>
+    <div class="sidebar-bottom"><span class="avatar">O</span><div>Oskars labb<small>Geodaish · v0.2</small></div><a href="https://github.com/oskar-cloud/Geodaish" target="_blank" rel="noreferrer" aria-label="Öppna GitHub"><svg><use href="#i-external"/></svg></a></div>
+  </aside>
+
+  <div class="shell">
+    <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><span>/</span><strong id="page-name">Översikt</strong></div><div class="topbar-right"><span class="environment-dot"></span>Geodaish-v0<span class="topbar-divider"></span><a href="https://github.com/oskar-cloud/Geodaish" target="_blank" rel="noreferrer">GitHub <svg><use href="#i-external"/></svg></a></div></header>
+    <main id="main">
+      <div class="page-heading"><div><div class="eyebrow">GEOMETRY DASH × REINFORCEMENT LEARNING</div><h1 id="page-title">Se din AI lära sig<span>.</span></h1><p id="page-description">Från första hoppet till en hel bana. Följ varje framsteg.</p></div><a class="button button-primary" href="#connect"><svg><use href="#i-bolt"/></svg>Koppla live<span>↗</span></a></div>
+
+      <div id="fatal-error" class="error-panel" hidden><strong>Resultaten kunde inte laddas.</strong><p>Kontrollera anslutningen och försök igen.</p><button class="button" id="retry">Försök igen</button></div>
+
+      <div class="run-bar"><div class="run-identity"><span class="status-pill" id="status-pill"><i></i>Laddar</span><span class="run-name" id="run-name">Hämtar träningsdata…</span><span class="subtle" id="run-detail"></span></div><div class="run-actions"><span id="sync-state" class="subtle" aria-live="polite"></span><label class="sr-only" for="source-select">Datakälla</label><select id="source-select"><option value="auto">Senaste körningen</option><option value="demo">Sparad demokörning</option></select><button id="download-report" class="icon-button" title="Ladda ner aktuell rapport" aria-label="Ladda ner aktuell rapport"><svg><use href="#i-download"/></svg></button></div></div>
+      <p class="source-notice" id="source-notice">Hämtar senaste rapporten…</p>
+
+      <section id="view-overview" class="view">
+        <div class="metrics-grid">
+          <article class="metric-card"><div class="metric-label">Klarade banor <svg><use href="#i-target"/></svg></div><div class="metric-number" id="metric-win">—</div><div class="metric-foot"><span class="mini-dot mint"></span><span id="metric-win-note">Inväntar validering</span></div><div class="metric-spark" id="spark-win"></div></article>
+          <article class="metric-card"><div class="metric-label">Framsteg på banan <svg><use href="#i-chart"/></svg></div><div class="metric-number" id="metric-progress">—</div><div class="metric-foot">Genomsnitt i senaste valideringen</div><div class="metric-spark" id="spark-progress"></div></article>
+          <article class="metric-card"><div class="metric-label">Träningssteg <svg><use href="#i-grid"/></svg></div><div class="metric-number" id="metric-steps">—</div><div class="metric-foot" id="metric-steps-note">—</div><div class="thin-progress"><i id="training-progress"></i></div></article>
+          <article class="metric-card"><div class="metric-label">Träningshastighet <svg><use href="#i-bolt"/></svg></div><div class="metric-number" id="metric-speed">—</div><div class="metric-foot"><span class="mini-dot violet"></span>miljösteg / sekund · CPU</div></article>
+        </div>
+
+        <div class="main-grid">
+          <article class="panel replay-panel">
+            <div class="panel-header"><div><h2><span class="mini-dot mint"></span>Agenten i aktion</h2><p>En faktisk körning av modellen, bildruta för bildruta.</p></div><span class="outline-tag" id="replay-label">PPO AGENT</span></div>
+            <div class="game-wrap"><canvas id="game" width="1000" height="380" aria-label="Uppspelning av PPO-agentens rörelser i Geodaish">Din webbläsare behöver stöd för canvas.</canvas><div id="replay-empty">En uppspelning kommer efter första valideringen.</div><div class="game-badge"><span class="mini-dot mint"></span><span id="replay-seed">BANA —</span></div><div class="game-counter"><span id="replay-progress">0</span><small>%</small></div><div class="replay-watermark">MODELLUPPSPELNING</div></div>
+            <div class="replay-controls"><button id="play-pause" class="icon-button play-control" aria-label="Pausa uppspelning"><svg><use href="#i-pause"/></svg></button><button id="replay-reset" class="icon-button" aria-label="Starta uppspelningen från början"><svg><use href="#i-reset"/></svg></button><span id="replay-time" class="mono">00:00 / 00:00</span><input id="replay-seek" type="range" min="0" max="1" value="0" step="1" aria-label="Position i uppspelningen"><label for="replay-speed" class="sr-only">Uppspelningshastighet</label><select id="replay-speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></div>
+            <div class="replay-footer"><span><span class="key-display" id="action-key">SPACE</span><span id="action-label">Släpp</span></span><span id="replay-model-step">Modell: — steg</span><label><input id="follow-model" type="checkbox" checked> Följ senaste modellen</label></div>
+          </article>
+
+          <article class="panel run-panel"><div class="panel-header"><div><h2>Träningspasset</h2><p>Vad som händer under huven.</p></div><svg class="panel-icon"><use href="#i-bolt"/></svg></div><div class="run-progress-block"><div><span>Genomfört</span><strong id="run-percent">—</strong></div><div class="run-progress-track"><i id="run-progress-fill"></i></div><small id="run-step-detail">—</small></div><dl class="run-facts"><div><dt>Algoritm</dt><dd>PPO <span class="small-tag">MLP</span></dd></div><div><dt>Svårighet</dt><dd id="run-difficulty">—</dd></div><div><dt>Parallella miljöer</dt><dd id="run-envs">—</dd></div><div><dt>Avslutade försök</dt><dd id="run-episodes">—</dd></div><div><dt>Träningstid</dt><dd id="run-duration">—</dd></div><div><dt>Träningsseed</dt><dd id="run-seed">—</dd></div></dl><div class="run-insight"><span>↗</span><p id="run-insight">När agenten klarar fler hinder stiger kurvan. Resultaten kommer från separata valideringsbanor.</p></div></article>
+        </div>
+
+        <div class="bottom-grid">
+          <article class="panel chart-panel"><div class="panel-header"><div><h2>Inlärningskurvan</h2><p>Riktiga mätpunkter från valideringen.</p></div><div class="segmented" role="group" aria-label="Välj mått"><button class="selected" data-metric="meanProgress">Framsteg</button><button data-metric="successRate">Klarade</button><button data-metric="meanReward">Belöning</button></div></div><div class="chart-legend"><span><i class="mini-dot mint"></i><span id="chart-legend-label">Genomsnittligt framsteg</span></span><span id="chart-samples">— mätpunkter</span></div><div class="chart-container" id="chart-container"><svg id="learning-chart" viewBox="0 0 720 220" role="img" aria-label="Träningskurva"></svg><div id="chart-tooltip" hidden></div><div id="chart-empty" hidden>Väntar på första valideringen. Träningen rapporterar steg under tiden.</div></div><div class="chart-footer"><span>Kumulativa träningssteg</span><a href="#evaluation">Visa mätvärden <svg><use href="#i-arrow"/></svg></a></div></article>
+          <article class="panel milestone-panel"><div class="panel-header"><div><h2>Framsteg att minnas</h2><p>Agentens resa genom träningen.</p></div></div><ol id="milestones" class="milestones"></ol><div class="small-note">Milstolpar baseras på sparad validering. En bra körning är ingen garanti för alla banor.</div></article>
+        </div>
+      </section>
+
+      <section id="view-evaluation" class="view" hidden>
+        <article class="panel evaluation-panel"><div class="panel-header"><div><h2>Det separata sluttestet</h2><p id="test-description">Sluttestet hålls skilt från valideringen som används under träningen.</p></div><span class="outline-tag">TESTDATA</span></div><div id="test-cards" class="test-cards"></div><p class="small-note" id="test-note"></p></article>
+        <article class="panel table-panel"><div class="panel-header"><div><h2>Alla valideringspunkter</h2><p>Det här är siffrorna bakom kurvorna.</p></div><button class="button button-small" id="download-table"><svg><use href="#i-download"/></svg>Hämta CSV</button></div><div class="table-scroll"><table><thead><tr><th>Steg</th><th>Klarade banor</th><th>Framsteg</th><th>Belöning</th><th>Antal banor</th></tr></thead><tbody id="validation-table"></tbody></table></div></article>
+      </section>
+
+      <section id="view-connect" class="view" hidden>
+        <div class="connection-intro"><div class="connection-symbol"><svg><use href="#i-link"/></svg></div><div><h2>Din Mac tränar. Webben visar.</h2><p>Du kan lägga upp sidan på Vercel direkt. Med en livekoppling följer resultaten med automatiskt, utan en ny Git-push för varje träningspass.</p></div></div>
+        <div class="setup-grid"><article class="panel setup-card"><span class="step-number">01</span><h2>Publicera på Vercel</h2><p>Importera GitHub-repot <strong>oskar-cloud/Geodaish</strong>. Använd projektets rotmapp.</p><dl><div><dt>Framework</dt><dd>Other</dd></div><div><dt>Build command</dt><dd><code>npm run build</code></dd></div><div><dt>Output directory</dt><dd><code>dist</code></dd></div></dl><p class="small-note">Inställningarna finns redan i vercel.json. Sparade resultat och uppspelningen fungerar direkt.</p><a href="https://vercel.com/new" target="_blank" rel="noreferrer" class="text-link">Öppna Vercel <svg><use href="#i-external"/></svg></a></article><article class="panel setup-card"><span class="step-number">02</span><h2>Aktivera liverapporter</h2><p>Koppla <strong>Upstash Redis</strong> via Vercels Storage/Marketplace och kontrollera att projektet får REST-URL och token.</p><p>Lägg till en egen hemlig miljövariabel <code>TRAINING_API_TOKEN</code> med minst 32 tecken och gör en ny deployment.</p><p class="small-note">Servern stöder UPSTASH_REDIS_REST_URL/TOKEN och KV_REST_API_URL/TOKEN. Nycklarna ligger bara på servern.</p><a href="https://github.com/oskar-cloud/Geodaish/blob/main/docs/dashboard.md" target="_blank" rel="noreferrer" class="text-link">Läs hela installationsguiden <svg><use href="#i-arrow"/></svg></a></article><article class="panel setup-card wide"><div><span class="step-number">03</span><h2>Starta ett träningspass på Macen</h2><p>Aktivera din Python-miljö. Ange webbadressen och samma hemliga nyckel som på Vercel. Rapportering sker ungefär var femte sekund och vid varje validering.</p></div><div class="code-block"><button id="copy-command" class="icon-button" aria-label="Kopiera träningskommando"><svg><use href="#i-copy"/></svg></button><pre id="training-command"></pre></div><p class="small-note">Lokalt: kör <code>npm run dev</code> och <code>geodaish train</code> i två terminaler. Då behövs varken Redis eller någon nyckel. Kör ett träningspass åt gången per dashboard.</p></article></div>
+      </section>
+
+      <footer class="footer"><span><span class="mini-dot mint"></span>Byggt för nyfikenhet. Tränat med PPO.</span><span>Simulator · inte originalspelet<span class="footer-dot">·</span>Geodaish © 2026</span></footer>
+    </main>
+  </div>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>

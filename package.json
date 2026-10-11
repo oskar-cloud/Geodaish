@@ -1,0 +1,13 @@
+{
+  "name": "geodaish-dashboard",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test web-tests/*.test.mjs",
+    "preview": "node scripts/dev.mjs --production"
+  }
+}
