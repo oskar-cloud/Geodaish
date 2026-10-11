@@ -3,6 +3,9 @@
 import queue
 
 
+_root = None
+
+
 def explain_stop(reason):
     if "Time limit" in reason or "time limit" in reason:
         return "Tidsgränsen nåddes. Starta ett nytt försök för att fortsätta."
@@ -25,10 +28,16 @@ def explain_stop(reason):
 
 def session_window(*, title, updates, finished, on_stop, on_arm, result,
                    report_path, retry=True):
+    global _root
     import tkinter as tk
     from PIL import Image, ImageTk
 
-    root = tk.Tk()
+    # Keep one Tcl interpreter across retries. Recreating Tk while capture
+    # threads run lets Python GC delete an old interpreter on the wrong thread.
+    if _root is None:
+        _root = tk.Tk()
+    root = _root
+    root.deiconify()
     root.title(title)
     root.geometry("720x600+10+50")
     root.minsize(540, 430)
@@ -53,13 +62,22 @@ def session_window(*, title, updates, finished, on_stop, on_arm, result,
         handle = root.after(delay, invoke)
         scheduled.add(handle)
 
-    def destroy_window():
-        # A retry creates another Tk root in this process. Cancel this root's
-        # callbacks first so Tk cannot invoke deleted commands in the next loop.
+    def destroy_window(*, keep_root=False):
+        global _root
         for handle in scheduled:
             root.after_cancel(handle)
         scheduled.clear()
-        root.destroy()
+        # Destroy PhotoImage on the UI thread before releasing its widgets.
+        label.configure(image="")
+        label.image = None
+        for widget in root.winfo_children():
+            widget.destroy()
+        root.quit()
+        if keep_root:
+            root.withdraw()
+        else:
+            root.destroy()
+            _root = None
 
     def request_close():
         if not finished.is_set():
@@ -78,7 +96,7 @@ def session_window(*, title, updates, finished, on_stop, on_arm, result,
         nonlocal wants_restart
         if finished.is_set():
             wants_restart = True
-            destroy_window()
+            destroy_window(keep_root=True)
 
     arm_button = None
     if on_arm:

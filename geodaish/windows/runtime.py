@@ -213,6 +213,10 @@ def run_session(args):
             if not finished.is_set():
                 halt()
             thread.join(timeout=3)
+            # Dispose old Tk widget/callback cycles on the main thread before
+            # another session starts a capture worker that could trigger GC.
+            import gc
+            gc.collect()
     print(json.dumps(stats,indent=2))
     print(f"Session report: {output / 'summary.json'}")
     return restart
