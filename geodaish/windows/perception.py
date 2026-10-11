@@ -17,6 +17,18 @@ class CubeMissing(PerceptionError):
     """Ground is visible, but no calibrated cube was found. Not proof of death."""
 
 
+class GroundMissing(PerceptionError):
+    """A menu, animation or unsupported camera can obscure the ground."""
+
+
+class UnsupportedObstacle(PerceptionError):
+    """Suspend input until a new supported attempt is visible."""
+
+
+class TrackingRestart(PerceptionError):
+    """The cube moved abruptly; observe a fresh retry before continuing."""
+
+
 @dataclass(frozen=True)
 class Profile:
     width: int
@@ -138,7 +150,7 @@ class Observer:
         # The known flat ground line must still be visible (menus dim/hide it).
         rows = bright[max(0,p.ground_y-3):p.ground_y+4]
         if not len(rows) or rows.sum(axis=1).max() < p.width*0.25:
-            raise PerceptionError("Ground line missing: menu, occlusion, camera change or unsupported level")
+            raise GroundMissing("Ground line missing: menu, occlusion, camera change or unsupported level")
         hue_diff = np.abs(hsv[:,:,0].astype(float)-p.cube_hue)
         hue_diff = np.minimum(hue_diff, 180-hue_diff)
         colour = (hue_diff <= p.hue_tolerance) & (hsv[:,:,1] >= p.saturation_min) & (hsv[:,:,2] >= p.value_min)
@@ -185,7 +197,7 @@ class Observer:
                     p.cube_px*0.6 <= h <= p.cube_px*1.2 and 0.35 <= fill <= 0.72):
                 spikes.append(Box(x0,y0,x0+w,p.ground_y))
             elif self.strict_hazards and x0 > cube.right and h > p.cube_px*0.5:
-                raise PerceptionError("Unsupported block/platform or ambiguous obstacle ahead")
+                raise UnsupportedObstacle("Unsupported block/platform or ambiguous obstacle ahead")
         spikes.sort(key=lambda b:b.left)
         groups = []
         for box in spikes:
@@ -214,7 +226,7 @@ class Observer:
                     self.speed = measured if self.speed == 0 else self.speed*0.65+measured*0.35
                     self.last_motion = stamp
             if abs(cx-old_cx) > p.cube_px*1.5:
-                raise PerceptionError("Cube teleported: likely restart or wrong detection")
+                raise TrackingRestart("Cube teleported: likely restart or wrong detection")
         if grounded:
             vy = 0.0
         # Background movement proves frames are still advancing between spikes.

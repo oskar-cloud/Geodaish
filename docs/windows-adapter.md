@@ -71,18 +71,36 @@ mellan spikarna men används inte för att uppskatta löphastigheten.
 ```
 
 Välj Geometry Dash och tryck **F8**, eller välj **ARM in 3 seconds** och återgå
-till spelet. Första modellbeslutet kräver en tillförlitlig rörlig scen. **F9**,
+till spelet. Första modellbeslutet kräver en tillförlitlig rörlig scen.
+I `windows run` behöver du bara aktivera en gång: slå på **Auto-Retry** i spelet.
+När kuben försvinner eller ett hinder saknar stöd släpper adaptern hoppknappen
+och visar **VÄNTAR PÅ NYTT FÖRSÖK**. Efter att kuben försvunnit i minst två bilder
+och sedan åter syns på platt mark med rörelse, synliga spikar och fri ansats i
+tre stabila bilder fortsätter PPO automatiskt. Adaptern klickar inte i menyer
+eller trycker någon omstartstangent. Du kan även starta om banan manuellt inne
+i spelet. `--single-attempt` återställer beteendet att stoppa efter ett försök.
+
+**F9**,
 den röda **STOP**-knappen och stängning av adapterfönstret avslutar sessionen.
-Stoppet är låst: välj **Nytt försök** och armera med F8 igen. Fönstret ligger
+Ett sådant stopp är låst: välj **Nytt försök** och armera med F8 igen. Fönstret ligger
 kvar efter stopp och visar orsaken, antal giltiga bilder och rapportens sökväg.
 **Stäng** avslutar programmet. Standardgränsen för preview/run är tio minuter
 (probe: 60 sekunder); ändra med `--seconds`.
 
 En separat kontrolltråd släpper adapterns hållna tangent vid fokusförlust,
-F9 eller mer än 350 ms utan uppdatering. Saknad kub/mark, ändrad fönsterstorlek,
-bildgap över 250 ms, orimlig spårning och okända block/plattformar stoppar också.
+F9 eller mer än 350 ms utan uppdatering. Fokusförlust, ändrad fönsterstorlek
+under en aktiverad session, bildgap över 250 ms och tvetydig kubdetektion
+stoppar hela sessionen och kan inte återaktiveras automatiskt.
 Tangentrelease är den enda inmatning som får skickas efter fokusförlust.
-Det finns ingen automatisk menyhantering eller återarmering efter död.
+Preview skickar aldrig inmatning och probe gör fortfarande högst ett hopp.
+Automatisk fortsättning använder den sparade modellen; den uppdaterar inga vikter.
+
+Verifierat i Steam 2026-10-11: en 45-sekunders session i början av Stereo Madness
+gjorde **nio försök, varav åtta automatiska återupptagningar**, utan nya F8-tryck.
+Loggen innehöll 668 giltiga bilder, 501 styrda bilder och 43 hopptryck med lika
+många släpp. Tidsgränsen avslutade sessionen med tangenten släppt. Tester täcker
+också att F9, STOP och fokusförlust aldrig kan återaktiveras av en ny spelbild.
+Detta verifierar upprepade försök, inte att modellen klarar hela banan.
 
 `--headless` tar bort det lokala fönstret; F9 och Ctrl+C finns kvar.
 `--arm-after SEKUNDER` är ett uttryckligt alternativ till manuell armering för

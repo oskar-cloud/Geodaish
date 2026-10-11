@@ -30,7 +30,7 @@ function render(data) {
   text('live-mode',{preview:'BILDKONTROLL',probe:'HOPPMÄTNING',run:'PPO'}[data.run.mode]);
   text('live-model',data.run.model || 'Ingen PPO-styrning i detta läge');
   text('live-key',data.run.jumpKey === 'up' ? '↑' : 'SPACE');
-  text('live-armed',t.armed ? 'Armerad' : 'Avstängd');
+  text('live-armed',t.waitingForRetry ? 'Fortsätter vid nästa försök' : t.armed ? 'Armerad' : 'Avstängd');
   text('live-count',`${t.validFrames} / ${t.frames}`);
   text('live-presses',t.presses);text('live-capture',ms(t.captureMs));text('live-pipeline',ms(t.pipelineMs));
   text('live-time',`${t.elapsedSeconds.toFixed(1)} s`);text('live-reason',t.reason);

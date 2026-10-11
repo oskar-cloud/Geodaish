@@ -46,3 +46,16 @@ test('stopped and stale game sessions cannot look live',()=>{
   data.telemetry.armed=false;assert.equal(liveState(data,now).label,'FÖRHANDSVISNING');
   data.run.status='stopped';assert.equal(liveState(data,now+90000).label,'STOPPAD');
 });
+
+test('automatic retry remains visible and a stop always takes priority',()=>{
+  const data=report(), now=Date.parse(data.telemetry.updatedAt);
+  data.telemetry.armed=false; data.telemetry.held=false; data.telemetry.waitingForRetry=true;
+  assert.equal(validateWindows(data).telemetry.waitingForRetry,true);
+  assert.equal(liveState(data,now).label,'VÄNTAR PÅ NYTT FÖRSÖK');
+  assert.equal(liveState(data,now+7000).kind,'stale');
+  data.run.status='stopped';
+  assert.equal(liveState(data,now).label,'STOPPAD');
+  data.telemetry.waitingForRetry='true';
+  assert.throws(()=>validateWindows(data));
+  assert.equal(validateWindows(report()).telemetry.waitingForRetry,false);
+});

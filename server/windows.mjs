@@ -17,6 +17,7 @@ export function validateWindows(data) {
       !date(t.updatedAt) || ![true,false].includes(t.armed) || ![true,false].includes(t.held) ||
       ![null,0,1].includes(t.action) || ![t.captureMs,t.pipelineMs].every(v => v === null || nonnegative(v)) ||
       !short(t.reason)) throw new Error('Invalid Windows telemetry');
+  if (t.waitingForRetry !== undefined && typeof t.waitingForRetry !== 'boolean') throw new Error('Invalid retry state');
   let scene = null;
   if (s !== null) {
     if (!s || ![s.width,s.height,s.groundY].every(nonnegative) || s.width < 200 || s.width > 10000 ||
@@ -34,8 +35,8 @@ export function validateWindows(data) {
       /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(data.image)))) throw new Error('Invalid image');
   return {schemaVersion:1,source:'geometry-dash-windows',
     run:pick(r,['id','label','startedAt','status','mode','model','jumpKey']),
-    telemetry:pick(t,['sequence','updatedAt','elapsedSeconds','frames','validFrames','armed','held',
-      'presses','action','captureMs','pipelineMs','reason']),scene,image:data.image};
+    telemetry:{...pick(t,['sequence','updatedAt','elapsedSeconds','frames','validFrames','armed','held',
+      'presses','action','captureMs','pipelineMs','reason']),waitingForRetry:t.waitingForRetry ?? false},scene,image:data.image};
 }
 
 export const handleWindows = options => handleSnapshot({...options,key:'geodaish:windows:latest',validate:validateWindows});

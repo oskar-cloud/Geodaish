@@ -1,4 +1,4 @@
-"""Live preview and bounded PPO sessions. No automatic menu or restart input."""
+"""Live PPO sessions that can resume after the game's own Auto-Retry."""
 
 from dataclasses import asdict
 from datetime import datetime, timezone
@@ -14,7 +14,9 @@ from PIL import Image
 from geodaish.vision import PerceptionError
 from geodaish.windows.control import JumpController, Stopped, Watchdog
 from geodaish.windows.native import GameCapture, WindowsGame
-from geodaish.windows.perception import Observer, Profile, annotate
+from geodaish.windows.perception import (CubeMissing, GroundMissing, Observer, Profile,
+                                        TrackingRestart, UnsupportedObstacle, annotate)
+from geodaish.windows.retry import AttemptRecovery
 from geodaish.windows.telemetry import LiveReporter
 
 
@@ -25,6 +27,7 @@ def run_session(args):
     game = WindowsGame(jump_key=args.jump_key)
     model = None
     controls_enabled = args.mode in ("run", "probe")
+    continue_attempts = args.mode == "run" and not getattr(args, "single_attempt", False)
     if args.mode == "run":
         from geodaish.cli import load_model
         model = load_model(args.model)
@@ -47,7 +50,8 @@ def run_session(args):
              "jump_key":args.jump_key,
              "started_at":datetime.now(timezone.utc).isoformat(), "profile":asdict(profile),
              "model":str(args.model) if model else None, "frames":0, "valid_frames":0,
-             "armed_frames":0, "stop_reason":None, "presses":0,"releases":0}
+             "armed_frames":0, "stop_reason":None, "presses":0,"releases":0,
+             "attempts":0, "auto_resumes":0, "waiting_for_retry":False}
 
     def publish(frame, scene, status):
         if args.headless:
@@ -62,6 +66,7 @@ def run_session(args):
     def worker():
         capture = None
         observer = Observer(profile)
+        recovery = AttemptRecovery()
         arm_key_was_down = False
         active = False
         first_valid_saved = False
@@ -80,7 +85,7 @@ def run_session(args):
                     if key_down and not arm_key_was_down and controls_enabled:
                         arm.set()
                     arm_key_was_down = key_down
-                    if args.arm_after is not None and tick-started >= args.arm_after and controls_enabled:
+                    if args.arm_after is not None and tick-started >= args.arm_after and controls_enabled and not controller.session_active:
                         arm.set()
                     # A preview may be occluded; it cannot send input. Live
                     # control checks focus before capture, inference and dispatch.
@@ -98,7 +103,7 @@ def run_session(args):
                            "observation":None,"action":None,"sent":False,"error":None}
                     scene = None
                     try:
-                        if not controller.armed:
+                        if not controller.session_active:
                             fitted = profile.resized(frame.shape[1], frame.shape[0])
                             if fitted != observer.profile:
                                 observer = Observer(fitted)
@@ -109,15 +114,23 @@ def run_session(args):
                                    speed=scene.speed,grounded=scene.grounded,ready=scene.ready,
                                    cube=vars(scene.cube),spikes=[vars(b) for b in scene.spikes])
                         probe_clear = args.mode != "probe" or (scene.grounded and scene.observation[7] == 1 and scene.observation[4]*16 >= 6)
-                        if controls_enabled and arm.is_set() and not controller.armed and scene.ready and probe_clear and game.focused():
+                        resume = recovery.waiting and recovery.ready(scene, stamp)
+                        requested = arm.is_set() and not recovery.waiting
+                        if controls_enabled and (requested or resume) and not controller.armed and scene.ready and probe_clear and game.focused():
                             controller.arm()
                             arm.clear()
+                            recovery.resumed()
+                            stats["waiting_for_retry"] = False
+                            stats["attempts"] += 1
+                            stats["auto_resumes"] += int(resume)
+                            row["event"] = "attempt_resumed" if resume else "attempt_started"
+                            print(f"Attempt {stats['attempts']} active" + (" (automatic retry)" if resume else ""), flush=True)
                         if not first_valid_saved and scene.spikes:
                             Image.fromarray(annotate(frame,scene)).save(output/"detections.png")
                             first_valid_saved = True
                         if controller.armed:
                             if active and not scene.ready:
-                                raise Stopped("Scene stopped moving or lost reliable tracking")
+                                raise TrackingRestart("Scene stopped moving or lost reliable tracking")
                             if scene.ready:
                                 active = True
                                 if args.mode == "probe":
@@ -141,11 +154,24 @@ def run_session(args):
                                        pipeline_ms=(time.perf_counter()-stamp+capture_time)*1000)
                             stats["armed_frames"] += 1
                         status = (f"{args.mode.upper()} ACTIVE - F9 STOP" if active else "ARMED - waiting for moving spikes") if controller.armed else "PREVIEW - F8 to arm" if controls_enabled else "PREVIEW ONLY - no keyboard input"
+                        if recovery.waiting:
+                            status = "WAITING FOR NEXT ATTEMPT - Auto-Retry ON - F9 stops"
                     except PerceptionError as exc:
                         row["error"] = str(exc)
                         observer.reset()
                         status = str(exc)
-                        if controller.armed:
+                        recoverable = isinstance(exc, (CubeMissing, GroundMissing, UnsupportedObstacle, TrackingRestart))
+                        if continue_attempts and controller.session_active and recoverable:
+                            if not recovery.waiting:
+                                controller.suspend("Waiting for next attempt - enable Auto-Retry; F9 stops")
+                                recovery.begin()
+                                arm.clear()
+                                active = False
+                                stats["waiting_for_retry"] = True
+                                row["event"] = "attempt_suspended"
+                            recovery.failed(exc, stamp)
+                            status = "WAITING FOR NEXT ATTEMPT - " + str(exc)
+                        elif controller.session_active:
                             raise Stopped(status) from exc
                     finally:
                         if args.record_frames:
@@ -172,7 +198,8 @@ def run_session(args):
                     stats["capture_close_error"] = str(exc)
             stats.update(stop_reason=stats["stop_reason"] or controller.reason,
                          presses=controller.presses,releases=controller.releases,
-                         key_released=not controller.held,seconds=time.perf_counter()-started)
+                         key_released=not controller.held,seconds=time.perf_counter()-started,
+                         waiting_for_retry=False)
             stop.set()
             try:
                 (output/"summary.json").write_text(json.dumps(stats,indent=2)+"\n",encoding="utf-8")

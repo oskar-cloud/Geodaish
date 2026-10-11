@@ -45,6 +45,9 @@ def register(sub):
         else:
             p.set_defaults(arm_after=None)
         p.set_defaults(func=session_command)
+        if mode == "run":
+            p.add_argument("--single-attempt", action="store_true",
+                           help="Stop after a lost cube/unsupported section instead of waiting for Auto-Retry")
     measure = commands.add_parser("measure", help="Fit a complete probe jump; create a simulator training profile")
     measure.add_argument("--log", required=True)
     measure.add_argument("--output", default="runs/windows/physics.json")

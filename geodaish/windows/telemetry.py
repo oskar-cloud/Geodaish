@@ -38,8 +38,9 @@ class LiveReporter:
             "elapsedSeconds":float(stats.get("seconds",row.get("time",0))),
             "frames":stats["frames"],"validFrames":stats["valid_frames"],
             "armed":controller.armed,"held":controller.held,"presses":controller.presses,
+            "waitingForRetry":bool(stats.get("waiting_for_retry",False)) and not final,
             "action":row.get("action"),"captureMs":row.get("capture_ms"),"pipelineMs":row.get("pipeline_ms"),
-            "reason":str(stats.get("stop_reason") or row.get("error") or controller.reason)[:160]}
+            "reason":str(stats.get("stop_reason") or (controller.reason if stats.get("waiting_for_retry") else row.get("error")) or controller.reason)[:160]}
         if not final:
             self.snapshot["scene"] = None if scene is None else {
                 "width":frame.shape[1],"height":frame.shape[0],"groundY":scene.ground_y,
