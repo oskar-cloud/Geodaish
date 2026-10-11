@@ -1,0 +1,34 @@
+{
+  "algorithm": "PPO",
+  "environment": "Geodaish-v0",
+  "difficulty": "normal",
+  "observation_shape": [
+    16
+  ],
+  "actions": [
+    "release",
+    "hold_jump"
+  ],
+  "model_timesteps": 1920004,
+  "training_seeds": [
+    42,
+    43
+  ],
+  "validation_seeds": [
+    10000,
+    10009
+  ],
+  "test_seeds": [
+    20000,
+    20099
+  ],
+  "test_successes": 100,
+  "test_episodes": 100,
+  "training_seconds": [
+    18.300922082999023,
+    125.3
+  ],
+  "sha256": "0c911f48386e85078874b454ad22c775e977560472827a09f7403f04392210d9",
+  "tested_dependencies": "requirements-tested.txt",
+  "original_geometry_dash_supported": false
+}

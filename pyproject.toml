@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geodaish"
+version = "0.1.0"
+description = "A small Geometry Dash-inspired reinforcement learning lab"
+requires-python = ">=3.10"
+dependencies = [
+    "gymnasium>=1.2,<2",
+    "numpy>=1.26,<3",
+    "stable-baselines3>=2.7,<3",
+    "pygame>=2.6,<3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+geodaish = "geodaish.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["geodaish*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

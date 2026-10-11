@@ -1,0 +1,2732 @@
+{
+  "random": {
+    "episodes": 100,
+    "difficulty": "normal",
+    "first_seed": 20000,
+    "success_rate": 0.0,
+    "mean_progress": 0.12322189790018459,
+    "mean_reward": -3.534900000000005,
+    "results": [
+      {
+        "seed": 20000,
+        "reward": -4.22,
+        "progress": 0.09211355978462292,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20001,
+        "reward": -0.9600000000000213,
+        "progress": 0.23716130345084516,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20002,
+        "reward": -4.17,
+        "progress": 0.0935598435787641,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20003,
+        "reward": -4.24,
+        "progress": 0.08623319975009254,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20004,
+        "reward": -4.18,
+        "progress": 0.09632736046006427,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20005,
+        "reward": -4.24,
+        "progress": 0.08489837216431974,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20006,
+        "reward": -4.24,
+        "progress": 0.09217196841639246,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20007,
+        "reward": -4.16,
+        "progress": 0.0924680000559143,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20008,
+        "reward": -2.420000000000012,
+        "progress": 0.18214180429395477,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 4
+      },
+      {
+        "seed": 20009,
+        "reward": -4.25,
+        "progress": 0.08740834689951732,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20010,
+        "reward": -4.199999999999999,
+        "progress": 0.08992711886810206,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20011,
+        "reward": -4.22,
+        "progress": 0.0974092606917373,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20012,
+        "reward": -4.2299999999999995,
+        "progress": 0.09460955364263135,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20013,
+        "reward": -1.02000000000002,
+        "progress": 0.2413913693197672,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20014,
+        "reward": -4.16,
+        "progress": 0.0947207577928702,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20015,
+        "reward": -4.21,
+        "progress": 0.09353647893522374,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20016,
+        "reward": -4.24,
+        "progress": 0.08994941512651247,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20017,
+        "reward": -4.1899999999999995,
+        "progress": 0.08986073146969366,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20018,
+        "reward": -4.25,
+        "progress": 0.0872454756769842,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20019,
+        "reward": -2.800000000000004,
+        "progress": 0.14238527675217577,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20020,
+        "reward": -4.24,
+        "progress": 0.08930145101411766,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20021,
+        "reward": -4.22,
+        "progress": 0.09302884299603192,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20022,
+        "reward": -4.2299999999999995,
+        "progress": 0.09912047796116784,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20023,
+        "reward": -4.16,
+        "progress": 0.09608635677064771,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20024,
+        "reward": -4.24,
+        "progress": 0.09074954561959572,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20025,
+        "reward": -4.2299999999999995,
+        "progress": 0.09240864534296495,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20026,
+        "reward": -4.2299999999999995,
+        "progress": 0.08952040702993476,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20027,
+        "reward": -4.2299999999999995,
+        "progress": 0.09586140396278747,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20028,
+        "reward": -4.24,
+        "progress": 0.08868344990651332,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20029,
+        "reward": -0.9800000000000209,
+        "progress": 0.23520835242503796,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20030,
+        "reward": -4.25,
+        "progress": 0.08486488186592456,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20031,
+        "reward": -4.1499999999999995,
+        "progress": 0.09656778212885346,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20032,
+        "reward": -4.22,
+        "progress": 0.09153086319341901,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20033,
+        "reward": -4.1899999999999995,
+        "progress": 0.09516453857045026,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20034,
+        "reward": -4.2299999999999995,
+        "progress": 0.0934719867990461,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20035,
+        "reward": -4.1899999999999995,
+        "progress": 0.09606649593817036,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20036,
+        "reward": -4.18,
+        "progress": 0.09728180848584302,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20037,
+        "reward": -2.390000000000012,
+        "progress": 0.17806022701230786,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 4
+      },
+      {
+        "seed": 20038,
+        "reward": -4.14,
+        "progress": 0.10083213257771921,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20039,
+        "reward": -4.1499999999999995,
+        "progress": 0.09678833553567445,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20040,
+        "reward": 5.509999999999927,
+        "progress": 0.5436041743444141,
+        "obstacles_passed": 6,
+        "is_success": false,
+        "dead": true,
+        "jumps": 11
+      },
+      {
+        "seed": 20041,
+        "reward": -4.14,
+        "progress": 0.10078329506505473,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20042,
+        "reward": -4.17,
+        "progress": 0.09347259145577463,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20043,
+        "reward": -4.22,
+        "progress": 0.09091491647984395,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20044,
+        "reward": -4.21,
+        "progress": 0.0914074494575826,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20045,
+        "reward": -4.24,
+        "progress": 0.08454665802540583,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20046,
+        "reward": -4.24,
+        "progress": 0.08612672988244688,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20047,
+        "reward": -4.24,
+        "progress": 0.08718346661470086,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20048,
+        "reward": -4.2299999999999995,
+        "progress": 0.09062918485183376,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20049,
+        "reward": -4.25,
+        "progress": 0.0897437583392476,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20050,
+        "reward": -4.17,
+        "progress": 0.09830060232493362,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20051,
+        "reward": -4.25,
+        "progress": 0.08636147376330777,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20052,
+        "reward": -4.16,
+        "progress": 0.09713249064014808,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20053,
+        "reward": -2.4400000000000115,
+        "progress": 0.17863125298783988,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 4
+      },
+      {
+        "seed": 20054,
+        "reward": -4.119999999999999,
+        "progress": 0.09944069219126385,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20055,
+        "reward": -4.2299999999999995,
+        "progress": 0.08939748997351808,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20056,
+        "reward": -4.24,
+        "progress": 0.0931708806427649,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20057,
+        "reward": -4.199999999999999,
+        "progress": 0.09290097918754917,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20058,
+        "reward": -4.2299999999999995,
+        "progress": 0.09033488066961436,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20059,
+        "reward": -4.22,
+        "progress": 0.09300322850048644,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20060,
+        "reward": -4.21,
+        "progress": 0.09291958944838855,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20061,
+        "reward": -4.22,
+        "progress": 0.09293551994105737,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20062,
+        "reward": 2.2799999999999523,
+        "progress": 0.39152648431853493,
+        "obstacles_passed": 4,
+        "is_success": false,
+        "dead": true,
+        "jumps": 8
+      },
+      {
+        "seed": 20063,
+        "reward": -2.410000000000012,
+        "progress": 0.18251978840372174,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 4
+      },
+      {
+        "seed": 20064,
+        "reward": -4.24,
+        "progress": 0.08876015658702656,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20065,
+        "reward": -4.17,
+        "progress": 0.10011368385598414,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20066,
+        "reward": -4.13,
+        "progress": 0.09877321574779388,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20067,
+        "reward": -4.25,
+        "progress": 0.09245516370713473,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20068,
+        "reward": -4.21,
+        "progress": 0.09465021786674349,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20069,
+        "reward": -0.9400000000000217,
+        "progress": 0.24453533854676504,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20070,
+        "reward": -2.44000000000001,
+        "progress": 0.1863018171286392,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 4
+      },
+      {
+        "seed": 20071,
+        "reward": 0.7799999999999638,
+        "progress": 0.30293516078964416,
+        "obstacles_passed": 3,
+        "is_success": false,
+        "dead": true,
+        "jumps": 7
+      },
+      {
+        "seed": 20072,
+        "reward": -0.880000000000023,
+        "progress": 0.2517689121301622,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20073,
+        "reward": -4.22,
+        "progress": 0.08928332625487263,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20074,
+        "reward": -2.830000000000003,
+        "progress": 0.1452553963250469,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20075,
+        "reward": -4.21,
+        "progress": 0.09496263527741104,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20076,
+        "reward": -4.16,
+        "progress": 0.09569381639145914,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20077,
+        "reward": -4.21,
+        "progress": 0.09290301161457407,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20078,
+        "reward": -4.119999999999999,
+        "progress": 0.09569609480241259,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20079,
+        "reward": 0.8399999999999626,
+        "progress": 0.31228246117483704,
+        "obstacles_passed": 3,
+        "is_success": false,
+        "dead": true,
+        "jumps": 7
+      },
+      {
+        "seed": 20080,
+        "reward": -4.119999999999999,
+        "progress": 0.09938419762374712,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20081,
+        "reward": -4.17,
+        "progress": 0.09648523470359228,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20082,
+        "reward": -4.16,
+        "progress": 0.09803633942407601,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20083,
+        "reward": -4.25,
+        "progress": 0.0902313789025959,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20084,
+        "reward": -4.1,
+        "progress": 0.10083450304413111,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20085,
+        "reward": -2.8100000000000036,
+        "progress": 0.15119456818003627,
+        "obstacles_passed": 1,
+        "is_success": false,
+        "dead": true,
+        "jumps": 3
+      },
+      {
+        "seed": 20086,
+        "reward": -4.199999999999999,
+        "progress": 0.09373620059991748,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20087,
+        "reward": -4.199999999999999,
+        "progress": 0.09548867628279027,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20088,
+        "reward": -4.25,
+        "progress": 0.08641963830978434,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20089,
+        "reward": -4.18,
+        "progress": 0.09633913526849446,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20090,
+        "reward": -0.9900000000000206,
+        "progress": 0.23269370554059077,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20091,
+        "reward": -4.2299999999999995,
+        "progress": 0.08494275760101339,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20092,
+        "reward": -4.199999999999999,
+        "progress": 0.09727047354523755,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20093,
+        "reward": 0.7999999999999625,
+        "progress": 0.32107000312013384,
+        "obstacles_passed": 3,
+        "is_success": false,
+        "dead": true,
+        "jumps": 7
+      },
+      {
+        "seed": 20094,
+        "reward": -4.25,
+        "progress": 0.09110100742978942,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20095,
+        "reward": -1.0100000000000202,
+        "progress": 0.22445159357718644,
+        "obstacles_passed": 2,
+        "is_success": false,
+        "dead": true,
+        "jumps": 5
+      },
+      {
+        "seed": 20096,
+        "reward": -4.24,
+        "progress": 0.08710749888801696,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20097,
+        "reward": -4.22,
+        "progress": 0.0945965750141236,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20098,
+        "reward": -4.1499999999999995,
+        "progress": 0.10139194806722265,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      },
+      {
+        "seed": 20099,
+        "reward": -4.2299999999999995,
+        "progress": 0.08993918691964682,
+        "obstacles_passed": 0,
+        "is_success": false,
+        "dead": true,
+        "jumps": 2
+      }
+    ]
+  },
+  "heuristic (hand-written)": {
+    "episodes": 100,
+    "difficulty": "normal",
+    "first_seed": 20000,
+    "success_rate": 1.0,
+    "mean_progress": 1.0,
+    "mean_reward": 30.549300000000162,
+    "results": [
+      {
+        "seed": 20000,
+        "reward": 30.420000000000122,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20001,
+        "reward": 30.61000000000019,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20002,
+        "reward": 30.820000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20003,
+        "reward": 30.820000000000178,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20004,
+        "reward": 30.470000000000162,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20005,
+        "reward": 30.960000000000186,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20006,
+        "reward": 30.25000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20007,
+        "reward": 31.090000000000195,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20008,
+        "reward": 30.680000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20009,
+        "reward": 30.590000000000195,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20010,
+        "reward": 30.90000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20011,
+        "reward": 30.01000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20012,
+        "reward": 30.14000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20013,
+        "reward": 30.210000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20014,
+        "reward": 30.820000000000185,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20015,
+        "reward": 30.450000000000145,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20016,
+        "reward": 30.450000000000138,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20017,
+        "reward": 31.020000000000195,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20018,
+        "reward": 30.60000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20019,
+        "reward": 30.43000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20020,
+        "reward": 30.520000000000152,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20021,
+        "reward": 30.390000000000164,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20022,
+        "reward": 29.720000000000162,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20023,
+        "reward": 30.70000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20024,
+        "reward": 30.38000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20025,
+        "reward": 30.280000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20026,
+        "reward": 30.610000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20027,
+        "reward": 29.990000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20028,
+        "reward": 30.570000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20029,
+        "reward": 30.590000000000188,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20030,
+        "reward": 30.840000000000174,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20031,
+        "reward": 30.76000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20032,
+        "reward": 30.530000000000186,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20033,
+        "reward": 30.460000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20034,
+        "reward": 30.240000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20035,
+        "reward": 30.380000000000145,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20036,
+        "reward": 30.380000000000138,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20037,
+        "reward": 31.050000000000196,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20038,
+        "reward": 30.530000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20039,
+        "reward": 30.74000000000018,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20040,
+        "reward": 30.300000000000146,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20041,
+        "reward": 30.54000000000012,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20042,
+        "reward": 30.830000000000155,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20043,
+        "reward": 30.580000000000204,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20044,
+        "reward": 30.650000000000183,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20045,
+        "reward": 30.990000000000194,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20046,
+        "reward": 30.83000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20047,
+        "reward": 30.660000000000174,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20048,
+        "reward": 30.450000000000152,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20049,
+        "reward": 30.36000000000014,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20050,
+        "reward": 30.400000000000176,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20051,
+        "reward": 30.690000000000147,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20052,
+        "reward": 30.650000000000176,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20053,
+        "reward": 30.740000000000208,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20054,
+        "reward": 30.85000000000018,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20055,
+        "reward": 30.620000000000196,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20056,
+        "reward": 30.16000000000013,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20057,
+        "reward": 30.620000000000154,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20058,
+        "reward": 30.470000000000162,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20059,
+        "reward": 30.390000000000178,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20060,
+        "reward": 30.450000000000124,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20061,
+        "reward": 30.400000000000155,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20062,
+        "reward": 30.380000000000145,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20063,
+        "reward": 30.720000000000155,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20064,
+        "reward": 30.570000000000164,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20065,
+        "reward": 30.300000000000153,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20066,
+        "reward": 30.760000000000147,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20067,
+        "reward": 30.120000000000147,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20068,
+        "reward": 30.350000000000165,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20069,
+        "reward": 30.41000000000019,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20070,
+        "reward": 30.38000000000013,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20071,
+        "reward": 31.180000000000213,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20072,
+        "reward": 30.430000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20073,
+        "reward": 30.740000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20074,
+        "reward": 30.03000000000018,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20075,
+        "reward": 30.270000000000138,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20076,
+        "reward": 30.780000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20077,
+        "reward": 30.510000000000133,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20078,
+        "reward": 31.150000000000205,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20079,
+        "reward": 31.1000000000002,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20080,
+        "reward": 30.810000000000166,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20081,
+        "reward": 30.610000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20082,
+        "reward": 30.520000000000124,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20083,
+        "reward": 30.320000000000192,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20084,
+        "reward": 30.93000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20085,
+        "reward": 29.880000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20086,
+        "reward": 30.54000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20087,
+        "reward": 30.380000000000166,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20088,
+        "reward": 30.680000000000135,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20089,
+        "reward": 30.46000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20090,
+        "reward": 30.64000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20091,
+        "reward": 31.010000000000183,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20092,
+        "reward": 30.230000000000153,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20093,
+        "reward": 30.730000000000175,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20094,
+        "reward": 30.240000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20095,
+        "reward": 30.850000000000186,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20096,
+        "reward": 30.73000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20097,
+        "reward": 30.25000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20098,
+        "reward": 30.340000000000146,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      },
+      {
+        "seed": 20099,
+        "reward": 30.5700000000002,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 12
+      }
+    ]
+  },
+  "PPO (learned)": {
+    "episodes": 100,
+    "difficulty": "normal",
+    "first_seed": 20000,
+    "success_rate": 1.0,
+    "mean_progress": 1.0,
+    "mean_reward": 30.549300000000162,
+    "results": [
+      {
+        "seed": 20000,
+        "reward": 30.420000000000122,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20001,
+        "reward": 30.61000000000019,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20002,
+        "reward": 30.820000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20003,
+        "reward": 30.820000000000178,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20004,
+        "reward": 30.470000000000162,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20005,
+        "reward": 30.960000000000186,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20006,
+        "reward": 30.25000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20007,
+        "reward": 31.090000000000195,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20008,
+        "reward": 30.680000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20009,
+        "reward": 30.590000000000195,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20010,
+        "reward": 30.90000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20011,
+        "reward": 30.01000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20012,
+        "reward": 30.14000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20013,
+        "reward": 30.210000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20014,
+        "reward": 30.820000000000185,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20015,
+        "reward": 30.450000000000145,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20016,
+        "reward": 30.450000000000138,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20017,
+        "reward": 31.020000000000195,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20018,
+        "reward": 30.60000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20019,
+        "reward": 30.43000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20020,
+        "reward": 30.520000000000152,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20021,
+        "reward": 30.390000000000164,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20022,
+        "reward": 29.720000000000162,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20023,
+        "reward": 30.70000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20024,
+        "reward": 30.38000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20025,
+        "reward": 30.280000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20026,
+        "reward": 30.610000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20027,
+        "reward": 29.990000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20028,
+        "reward": 30.570000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20029,
+        "reward": 30.590000000000188,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20030,
+        "reward": 30.840000000000174,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20031,
+        "reward": 30.76000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20032,
+        "reward": 30.530000000000186,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20033,
+        "reward": 30.460000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20034,
+        "reward": 30.240000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20035,
+        "reward": 30.380000000000145,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20036,
+        "reward": 30.380000000000138,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20037,
+        "reward": 31.050000000000196,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20038,
+        "reward": 30.530000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20039,
+        "reward": 30.74000000000018,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20040,
+        "reward": 30.300000000000146,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20041,
+        "reward": 30.54000000000012,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20042,
+        "reward": 30.830000000000155,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20043,
+        "reward": 30.580000000000204,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20044,
+        "reward": 30.650000000000183,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20045,
+        "reward": 30.990000000000194,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20046,
+        "reward": 30.83000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20047,
+        "reward": 30.660000000000174,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20048,
+        "reward": 30.450000000000152,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20049,
+        "reward": 30.36000000000014,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20050,
+        "reward": 30.400000000000176,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20051,
+        "reward": 30.690000000000147,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20052,
+        "reward": 30.650000000000176,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20053,
+        "reward": 30.740000000000208,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20054,
+        "reward": 30.85000000000018,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20055,
+        "reward": 30.620000000000196,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20056,
+        "reward": 30.16000000000013,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20057,
+        "reward": 30.620000000000154,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20058,
+        "reward": 30.470000000000162,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20059,
+        "reward": 30.390000000000178,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20060,
+        "reward": 30.450000000000124,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20061,
+        "reward": 30.400000000000155,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20062,
+        "reward": 30.380000000000145,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20063,
+        "reward": 30.720000000000155,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20064,
+        "reward": 30.570000000000164,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20065,
+        "reward": 30.300000000000153,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20066,
+        "reward": 30.760000000000147,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20067,
+        "reward": 30.120000000000147,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20068,
+        "reward": 30.350000000000165,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20069,
+        "reward": 30.41000000000019,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20070,
+        "reward": 30.38000000000013,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20071,
+        "reward": 31.180000000000213,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20072,
+        "reward": 30.430000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20073,
+        "reward": 30.740000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20074,
+        "reward": 30.03000000000018,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20075,
+        "reward": 30.270000000000138,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20076,
+        "reward": 30.780000000000157,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20077,
+        "reward": 30.510000000000133,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20078,
+        "reward": 31.150000000000205,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20079,
+        "reward": 31.1000000000002,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20080,
+        "reward": 30.810000000000166,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20081,
+        "reward": 30.610000000000156,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20082,
+        "reward": 30.520000000000124,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20083,
+        "reward": 30.320000000000192,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20084,
+        "reward": 30.93000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20085,
+        "reward": 29.880000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20086,
+        "reward": 30.54000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20087,
+        "reward": 30.380000000000166,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20088,
+        "reward": 30.680000000000135,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20089,
+        "reward": 30.46000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20090,
+        "reward": 30.64000000000017,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20091,
+        "reward": 31.010000000000183,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20092,
+        "reward": 30.230000000000153,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20093,
+        "reward": 30.730000000000175,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20094,
+        "reward": 30.240000000000173,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20095,
+        "reward": 30.850000000000186,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20096,
+        "reward": 30.73000000000016,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20097,
+        "reward": 30.25000000000015,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 13
+      },
+      {
+        "seed": 20098,
+        "reward": 30.340000000000146,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      },
+      {
+        "seed": 20099,
+        "reward": 30.5700000000002,
+        "progress": 1.0,
+        "obstacles_passed": 12,
+        "is_success": true,
+        "dead": false,
+        "jumps": 14
+      }
+    ]
+  }
+}
