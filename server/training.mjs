@@ -24,6 +24,14 @@ export function validateSnapshot(data) {
     throw new Error('Invalid telemetry');
   }
   if (!Array.isArray(data.history) || data.history.length > 1000) throw new Error('Invalid history');
+  const e = r.environment;
+  if (e !== undefined && (!e || !['state', 'pixels'].includes(e.observations) ||
+      !['generated', 'test'].includes(e.level) || !Number.isInteger(e.input_delay) ||
+      e.input_delay < 0 || e.input_delay > 30 || !e.physics || Array.isArray(e.physics) ||
+      typeof e.physics !== 'object' || Object.entries(e.physics).some(([key, value]) =>
+        !['speed', 'gravity', 'jump_velocity'].includes(key) || !finite(value) || value <= 0))) {
+    throw new Error('Invalid environment');
+  }
   let last = -1;
   for (const p of data.history) {
     if (!nonnegative(p.step) || p.step < last || !fraction(p.successRate) ||
@@ -53,8 +61,11 @@ export function validateSnapshot(data) {
   // Live uploads never accept arbitrary configuration, filesystem paths, or credentials.
   return {
     schemaVersion: 1,
-    run: Object.fromEntries(['id', 'label', 'status', 'algorithm', 'difficulty', 'seed',
+    run: { ...Object.fromEntries(['id', 'label', 'status', 'algorithm', 'difficulty', 'seed',
       'numEnvs', 'initialSteps', 'targetSteps', 'startedAt'].map(k => [k, r[k]])),
+      ...(e === undefined ? {} : { environment: { observations: e.observations, level: e.level,
+        input_delay: e.input_delay, physics: { ...e.physics } } }),
+    },
     telemetry: Object.fromEntries(['step', 'elapsedSeconds', 'stepsPerSecond', 'sequence',
       'updatedAt', 'episodes', 'meanEpisodeReward', 'meanEpisodeLength'].map(k => [k, t[k]])),
     history: data.history.map(p => Object.fromEntries(['step', 'elapsedSeconds', 'successRate',
@@ -91,7 +102,12 @@ end
 redis.call('SET', KEYS[1], ARGV[1])
 return 1`;
 
-export async function handleTraining({ method, authorization, body, env = process.env, fetcher = fetch }) {
+export async function handleTraining(options) {
+  return handleSnapshot(options);
+}
+
+export async function handleSnapshot({ method, authorization, body, env = process.env, fetcher = fetch,
+  key = KEY, validate = validateSnapshot }) {
   const response = (status, data) => ({ status, body: data });
   if (!['GET', 'POST'].includes(method)) return response(405, { error: 'method_not_allowed' });
   if (method === 'POST' && !authorized(authorization, env.TRAINING_API_TOKEN)) {
@@ -104,14 +120,14 @@ export async function handleTraining({ method, authorization, body, env = proces
   if (method === 'POST') {
     if (Buffer.byteLength(body || '') > MAX_BYTES) return response(413, { error: 'snapshot_too_large' });
     try {
-      snapshot = validateSnapshot(JSON.parse(body));
+      snapshot = validate(JSON.parse(body));
     } catch {
       return response(400, { error: 'invalid_snapshot' });
     }
     snapshot.receivedAt = new Date().toISOString();
   }
   try {
-    const command = method === 'GET' ? ['GET', KEY] : ['EVAL', STORE_SCRIPT, 1, KEY, JSON.stringify(snapshot)];
+    const command = method === 'GET' ? ['GET', key] : ['EVAL', STORE_SCRIPT, 1, key, JSON.stringify(snapshot)];
     const result = await fetcher(url, {
       method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(command), signal: AbortSignal.timeout(7000),
@@ -123,7 +139,7 @@ export async function handleTraining({ method, authorization, body, env = proces
       payload.result === 1 ? { ok: true } : { error: 'stale_snapshot' });
     if (payload.result === null) return response(404, { error: 'no_training_yet' });
     const stored = JSON.parse(payload.result);
-    return response(200, { ...validateSnapshot(stored), receivedAt: stored.receivedAt });
+    return response(200, { ...validate(stored), receivedAt: stored.receivedAt });
   } catch {
     return response(502, { error: 'storage_unavailable' });
   }

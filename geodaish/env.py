@@ -1,6 +1,8 @@
 """Deterministic fixed-step cube physics; rendering never drives simulation."""
 
 from dataclasses import dataclass
+from collections import deque
+import math
 
 import gymnasium as gym
 import numpy as np
@@ -40,22 +42,39 @@ class DashEnv(gym.Env):
     dt = 1.0 / 60.0
     lookahead = 16.0
 
-    def __init__(self, render_mode=None, difficulty="normal", max_steps=1800):
+    def __init__(self, render_mode=None, difficulty="normal", max_steps=1800,
+                 level="generated", input_delay=0, physics=None):
         if difficulty not in DIFFICULTIES:
             raise ValueError(f"Unknown difficulty: {difficulty}")
         if render_mode not in (None, *self.metadata["render_modes"]):
             raise ValueError(f"Unsupported render mode: {render_mode}")
         if max_steps < 1:
             raise ValueError("max_steps must be positive")
+        if level not in ("generated", "test"):
+            raise ValueError("level must be generated or test")
+        if isinstance(input_delay, bool) or not isinstance(input_delay, int) or not 0 <= input_delay <= 30:
+            raise ValueError("input_delay must be an integer from 0 to 30 frames")
+        self.level = level
+        self.input_delay = input_delay
         self.render_mode = render_mode
         self.difficulty = difficulty
         self.max_steps = max_steps
         self.speed, self.max_spikes, self.group_count = DIFFICULTIES[difficulty]
+        if physics is not None and not isinstance(physics, dict):
+            raise ValueError("physics must be an object with speed, gravity and/or jump_velocity")
+        for key, value in (physics or {}).items():
+            if key not in ("speed", "gravity", "jump_velocity"):
+                raise ValueError(f"Unknown physics setting: {key}")
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+                raise ValueError(f"{key} must be positive and finite")
+            setattr(self, key, float(value))
         self.action_space = spaces.Discrete(2)
         self.observation_space = spaces.Box(-1, 1, shape=(16,), dtype=np.float32)
         self._renderer = None
         self._done = True
         self.closed = False
+        self._inputs = deque([0] * self.input_delay)
+        self.applied_action = 0
 
     def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
@@ -63,6 +82,8 @@ class DashEnv(gym.Env):
         self.steps = self.passed = self.jumps = 0
         self._done = self.dead = self.success = False
         self.closed = False
+        self._inputs = deque([0] * self.input_delay)
+        self.applied_action = 0
         cursor = float(self.np_random.uniform(8.0, 11.0))
         self.obstacles = []
         for _ in range(self.group_count):
@@ -71,6 +92,10 @@ class DashEnv(gym.Env):
             self.obstacles.append(obstacle)
             # Leave enough room to land and jump again at every difficulty.
             cursor += obstacle.width + float(self.np_random.uniform(5.0, 8.0))
+        if self.level == "test":
+            # A fixed, inspectable course: flat ground, one spike at a time.
+            self.obstacles = [SpikeGroup(x, 1) for x in (8.0, 16.0, 24.0, 32.0)]
+        self.group_count = len(self.obstacles)
         self.level_length = self.obstacles[-1].x + self.obstacles[-1].width + 6.0
         if self.render_mode == "human":
             self.render()
@@ -100,6 +125,7 @@ class DashEnv(gym.Env):
             "is_success": self.success,
             "dead": self.dead,
             "jumps": self.jumps,
+            "applied_action": self.applied_action,
         }
 
     def _collides(self, obstacle):
@@ -125,9 +151,11 @@ class DashEnv(gym.Env):
             raise RuntimeError("Call reset() before stepping a finished environment")
         if not self.action_space.contains(action):
             raise ValueError("Action must be 0 (release) or 1 (hold jump)")
+        self._inputs.append(int(action))
+        self.applied_action = self._inputs.popleft()
         self.steps += 1
         reward = 0.01
-        if action == 1 and self.grounded:
+        if self.applied_action == 1 and self.grounded:
             self.vy = self.jump_velocity
             self.jumps += 1
         # Two physics substeps avoid passing through narrow hazards.

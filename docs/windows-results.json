@@ -1,0 +1,374 @@
+{
+  "tested_at": "2026-10-11",
+  "level": "Stereo Madness opening, normal mode, flat ground and first single spikes",
+  "custom_level_created": false,
+  "model_control": "Windows SendInput: up arrow; Space did not produce jumps in this configuration",
+  "measurements": {
+    "source": "GeometryDash.exe screen measurements; single-jump estimate",
+    "measurements": {
+      "airborne_frames": 7,
+      "speed": 8.458937158576852,
+      "gravity": 81.27487165028268,
+      "jump_velocity": 16.856918014120208,
+      "peak_height": 1.7176470588235293,
+      "fitted_airtime_seconds": 0.4148125409943131,
+      "fit_rmse_units": 0.038375348729092984,
+      "dispatch_to_first_visible_motion_ms": 89.62880000035511,
+      "fitted_dispatch_to_takeoff_ms": 57.31890087743015,
+      "median_pipeline_ms": 61.71360000007553,
+      "median_sample_interval_ms": 61.880599999312835
+    },
+    "training": {
+      "physics": {
+        "speed": 8.458937158576852,
+        "gravity": 81.27487165028268,
+        "jump_velocity": 17.19556331266305
+      },
+      "input_delay": 8
+    },
+    "limitations": [
+      "One jump, colour-based centre estimate and capture timestamps; not ground-truth physics.",
+      "Input queue approximates measured latency; live decision cadence/jitter are not reproduced.",
+      "Original hitboxes and invisible obstacles may differ; validate in the game after training."
+    ],
+    "samples": [
+      {
+        "time_after_command": 0.08962880000035511,
+        "height": 0.5098039215686274
+      },
+      {
+        "time_after_command": 0.15161979999902542,
+        "height": 1.2418300653594772
+      },
+      {
+        "time_after_command": 0.21338999999898078,
+        "height": 1.6130718954248366
+      },
+      {
+        "time_after_command": 0.2750637999997707,
+        "height": 1.7176470588235293
+      },
+      {
+        "time_after_command": 0.3381939999999304,
+        "height": 1.5294117647058822
+      },
+      {
+        "time_after_command": 0.4036830999993981,
+        "height": 1.0431372549019609
+      },
+      {
+        "time_after_command": 0.4633950999996159,
+        "height": 0.09673202614379085
+      }
+    ]
+  },
+  "sessions": [
+    {
+      "name": "probe-up-1",
+      "source": "GeometryDash.exe client screen",
+      "mode": "probe",
+      "jump_key": "up",
+      "started_at": "2026-10-11T12:27:48.272987+00:00",
+      "profile": {
+        "width": 1480,
+        "height": 833,
+        "ground_y": 596,
+        "cube_px": 76.5,
+        "cube_hue": 17.5,
+        "hue_tolerance": 25,
+        "saturation_min": 110,
+        "value_min": 80,
+        "spike_saturation_max": 145,
+        "spike_value_min": 175,
+        "player_left_fraction": 0.2,
+        "player_right_fraction": 0.55,
+        "schema_version": 1
+      },
+      "model": null,
+      "frames": 22,
+      "valid_frames": 19,
+      "armed_frames": 9,
+      "stop_reason": "Probe jump completed and landed",
+      "presses": 1,
+      "releases": 1,
+      "key_released": true,
+      "seconds": 1.5804348000001482
+    },
+    {
+      "name": "ppo-original-2",
+      "source": "GeometryDash.exe client screen",
+      "mode": "run",
+      "jump_key": "up",
+      "started_at": "2026-10-11T12:28:57.018379+00:00",
+      "profile": {
+        "width": 1480,
+        "height": 833,
+        "ground_y": 596,
+        "cube_px": 76.5,
+        "cube_hue": 17.5,
+        "hue_tolerance": 25,
+        "saturation_min": 110,
+        "value_min": 80,
+        "spike_saturation_max": 145,
+        "spike_value_min": 175,
+        "player_left_fraction": 0.2,
+        "player_right_fraction": 0.55,
+        "schema_version": 1
+      },
+      "model": "demo-normal.zip",
+      "frames": 63,
+      "valid_frames": 51,
+      "armed_frames": 43,
+      "stop_reason": "Unsupported block/platform or ambiguous obstacle ahead",
+      "presses": 4,
+      "releases": 4,
+      "key_released": true,
+      "seconds": 4.555872000000818
+    },
+    {
+      "name": "ppo-adapted-1",
+      "source": "GeometryDash.exe client screen",
+      "mode": "run",
+      "jump_key": "up",
+      "started_at": "2026-10-11T12:30:34.529655+00:00",
+      "profile": {
+        "width": 1480,
+        "height": 833,
+        "ground_y": 596,
+        "cube_px": 76.5,
+        "cube_hue": 17.5,
+        "hue_tolerance": 25,
+        "saturation_min": 110,
+        "value_min": 80,
+        "spike_saturation_max": 145,
+        "spike_value_min": 175,
+        "player_left_fraction": 0.2,
+        "player_right_fraction": 0.55,
+        "schema_version": 1
+      },
+      "model": "best.zip",
+      "frames": 64,
+      "valid_frames": 24,
+      "armed_frames": 21,
+      "stop_reason": "Unsupported block/platform or ambiguous obstacle ahead",
+      "presses": 4,
+      "releases": 4,
+      "key_released": true,
+      "seconds": 7.218293699999776
+    },
+    {
+      "name": "stop-button-2",
+      "source": "GeometryDash.exe client screen",
+      "mode": "preview",
+      "jump_key": "space",
+      "started_at": "2026-10-11T12:33:52.104191+00:00",
+      "profile": {
+        "width": 1480,
+        "height": 833,
+        "ground_y": 596,
+        "cube_px": 76.5,
+        "cube_hue": 17.5,
+        "hue_tolerance": 25,
+        "saturation_min": 110,
+        "value_min": 80,
+        "spike_saturation_max": 145,
+        "spike_value_min": 175,
+        "player_left_fraction": 0.2,
+        "player_right_fraction": 0.55,
+        "schema_version": 1
+      },
+      "model": null,
+      "frames": 0,
+      "valid_frames": 0,
+      "armed_frames": 0,
+      "stop_reason": "STOP button / window closed",
+      "presses": 0,
+      "releases": 0,
+      "key_released": true,
+      "seconds": 79.79828290000114
+    },
+    {
+      "name": "stop-f9-registered",
+      "source": "GeometryDash.exe client screen",
+      "mode": "preview",
+      "jump_key": "space",
+      "started_at": "2026-10-11T12:36:06.748568+00:00",
+      "profile": {
+        "width": 1480,
+        "height": 833,
+        "ground_y": 596,
+        "cube_px": 76.5,
+        "cube_hue": 17.5,
+        "hue_tolerance": 25,
+        "saturation_min": 110,
+        "value_min": 80,
+        "spike_saturation_max": 145,
+        "spike_value_min": 175,
+        "player_left_fraction": 0.2,
+        "player_right_fraction": 0.55,
+        "schema_version": 1
+      },
+      "model": null,
+      "frames": 110,
+      "valid_frames": 77,
+      "armed_frames": 0,
+      "stop_reason": "F9 emergency stop",
+      "presses": 0,
+      "releases": 0,
+      "key_released": true,
+      "seconds": 17.83595670000068
+    }
+  ],
+  "training": {
+    "timesteps_this_run": 20224,
+    "seconds": 25.944196700000248,
+    "interrupted": false,
+    "validation": {
+      "episodes": 1,
+      "difficulty": "normal",
+      "first_seed": 10000,
+      "distinct_levels": 1,
+      "environment": {
+        "observations": "state",
+        "level": "test",
+        "input_delay": 8,
+        "physics": {
+          "speed": 8.458937158576852,
+          "gravity": 81.27487165028268,
+          "jump_velocity": 17.19556331266305
+        }
+      },
+      "capture_detection_policy_mean_ms": null,
+      "success_rate": 1.0,
+      "mean_progress": 1.0,
+      "mean_reward": 16.749999999999964,
+      "results": [
+        {
+          "seed": 10000,
+          "reward": 16.749999999999964,
+          "progress": 1.0,
+          "obstacles_passed": 4,
+          "is_success": true,
+          "dead": false,
+          "jumps": 9,
+          "applied_action": 0
+        }
+      ]
+    }
+  },
+  "pixel_evaluation": {
+    "random": {
+      "episodes": 1,
+      "difficulty": "normal",
+      "first_seed": 20000,
+      "distinct_levels": 1,
+      "environment": {
+        "observations": "pixels",
+        "level": "test",
+        "input_delay": 8,
+        "physics": {
+          "speed": 8.458937158576852,
+          "gravity": 81.27487165028268,
+          "jump_velocity": 17.19556331266305
+        }
+      },
+      "capture_detection_policy_mean_ms": 19.90156909113549,
+      "success_rate": 0.0,
+      "mean_progress": 0.19854094536711345,
+      "mean_reward": -4.45,
+      "results": [
+        {
+          "seed": 20000,
+          "reward": -4.45,
+          "progress": 0.19854094536711345,
+          "obstacles_passed": 0,
+          "is_success": false,
+          "dead": true,
+          "jumps": 2,
+          "applied_action": 1,
+          "vision_valid": false
+        }
+      ]
+    },
+    "heuristic (hand-written)": {
+      "episodes": 1,
+      "difficulty": "normal",
+      "first_seed": 20000,
+      "distinct_levels": 1,
+      "environment": {
+        "observations": "pixels",
+        "level": "test",
+        "input_delay": 8,
+        "physics": {
+          "speed": 8.458937158576852,
+          "gravity": 81.27487165028268,
+          "jump_velocity": 17.19556331266305
+        }
+      },
+      "capture_detection_policy_mean_ms": 20.58787636374208,
+      "success_rate": 1.0,
+      "mean_progress": 1.0,
+      "mean_reward": 16.749999999999964,
+      "results": [
+        {
+          "seed": 20000,
+          "reward": 16.749999999999964,
+          "progress": 1.0,
+          "obstacles_passed": 4,
+          "is_success": true,
+          "dead": false,
+          "jumps": 4,
+          "applied_action": 0,
+          "vision_valid": false
+        }
+      ]
+    },
+    "PPO (learned)": {
+      "episodes": 1,
+      "difficulty": "normal",
+      "first_seed": 20000,
+      "distinct_levels": 1,
+      "environment": {
+        "observations": "pixels",
+        "level": "test",
+        "input_delay": 8,
+        "physics": {
+          "speed": 8.458937158576852,
+          "gravity": 81.27487165028268,
+          "jump_velocity": 17.19556331266305
+        }
+      },
+      "capture_detection_policy_mean_ms": 22.65772727269822,
+      "success_rate": 1.0,
+      "mean_progress": 1.0,
+      "mean_reward": 16.749999999999964,
+      "results": [
+        {
+          "seed": 20000,
+          "reward": 16.749999999999964,
+          "progress": 1.0,
+          "obstacles_passed": 4,
+          "is_success": true,
+          "dead": false,
+          "jumps": 9,
+          "applied_action": 0,
+          "vision_valid": false
+        }
+      ]
+    }
+  },
+  "limits": [
+    "No complete original-game level was cleared. Both PPO versions stopped before unsupported blocks near 4.4 percent.",
+    "One physical jump fit; no claim of exact game physics or a hardware latency measurement.",
+    "Fine-tuning succeeded on one fixed simulator course, not a held-out family of original levels.",
+    "No Vercel deployment or external screenshot upload was tested."
+  ],
+  "checks": {
+    "python_tests": 50,
+    "javascript_tests": 12,
+    "frontend_build": "passed",
+    "live_web_view": "local browser inspection",
+    "remote_deployment": "not performed",
+    "live_image_view": "cropped saved original-game screenshot visually checked in local browser; no remote upload"
+  }
+}

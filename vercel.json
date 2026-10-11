@@ -3,7 +3,7 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "functions": { "api/training.js": { "maxDuration": 10 } },
+  "functions": { "api/training.js": { "maxDuration": 10 }, "api/windows.js": { "maxDuration": 10 } },
   "headers": [
     { "source": "/api/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-store" }] },
     { "source": "/(.*)", "headers": [

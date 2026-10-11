@@ -13,15 +13,16 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 from uuid import uuid4
 
-from geodaish.env import DashEnv
+from geodaish.vision import make_env
 
 
 def utc_now():
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
-def record_replay(model, difficulty="normal", seed=10000, label="Senaste modellen"):
-    env = DashEnv(difficulty=difficulty)
+def record_replay(model, difficulty="normal", seed=10000, label="Senaste modellen", environment=None):
+    env = make_env(difficulty=difficulty, **(environment or {}))
+    state = env.unwrapped
     obs, _ = env.reset(seed=seed)
     frames = [[0.0, 0.0, 0, 0]]
     total = 0.0
@@ -30,15 +31,15 @@ def record_replay(model, difficulty="normal", seed=10000, label="Senaste modelle
             action = int(model.predict(obs, deterministic=True)[0])
             obs, reward, terminated, truncated, info = env.step(action)
             total += reward
-            frames.append([round(env.x, 5), round(env.y, 5), action, env.passed])
+            frames.append([round(state.x, 5), round(state.y, 5), state.applied_action, state.passed])
             if terminated or truncated:
                 break
         return {
             "id": f"{model.num_timesteps}-{seed}", "modelLabel": label,
             "modelStep": model.num_timesteps, "seed": seed,
-            "fps": 60, "length": env.level_length, "speed": env.speed,
-            "playerSize": env.player_size,
-            "obstacles": [{"x": o.x, "count": o.count, "height": o.height} for o in env.obstacles],
+            "fps": 60, "length": state.level_length, "speed": state.speed,
+            "playerSize": state.player_size,
+            "obstacles": [{"x": o.x, "count": o.count, "height": o.height} for o in state.obstacles],
             "frames": frames,
             "result": {"success": info["is_success"], "dead": info["dead"],
                        "progress": info["progress"], "reward": total, "jumps": info["jumps"]},
@@ -56,7 +57,7 @@ def validation_point(step, metrics, elapsed=None):
 class SnapshotPublisher:
     """Atomic local writes + a single background uploader with a latest-only queue."""
 
-    def __init__(self, path, url=None, token=None):
+    def __init__(self, path, url=None, token=None, *, endpoint="/api/training"):
         self.path = Path(path)
         self.url = url
         self.token = token
@@ -73,7 +74,7 @@ class SnapshotPublisher:
                 raise ValueError("Dashboard URL must not contain credentials, query strings, or fragments")
             if not token or len(token) < 32:
                 raise ValueError("Set GEODAISH_DASHBOARD_TOKEN to the same 32+ character secret as TRAINING_API_TOKEN on Vercel")
-            self.url = url.rstrip("/") + ("" if parsed.path.rstrip("/").endswith("/api/training") else "/api/training")
+            self.url = url.rstrip("/") + ("" if parsed.path.rstrip("/").endswith(endpoint) else endpoint)
             self._thread = threading.Thread(target=self._upload_loop, daemon=True)
             self._thread.start()
 
@@ -150,6 +151,8 @@ class TrainingReporter:
                     "targetSteps": initial_steps + args.steps, "startedAt": utc_now()},
             "telemetry": {"sequence": 0}, "history": [], "replay": None, "test": None,
         }
+        if getattr(args, "environment", None):
+            self.snapshot["run"]["environment"] = args.environment
         self.emit(initial_steps, force=True)
 
     def observe(self, infos, step):
@@ -164,7 +167,8 @@ class TrainingReporter:
         elapsed = time.perf_counter() - self.started
         self.snapshot["history"].append(validation_point(model.num_timesteps, metrics, elapsed))
         self.snapshot["history"] = self.snapshot["history"][-1000:]
-        self.snapshot["replay"] = record_replay(model, self.snapshot["run"]["difficulty"])
+        self.snapshot["replay"] = record_replay(model, self.snapshot["run"]["difficulty"],
+                                               environment=self.snapshot["run"].get("environment"))
         self.emit(model.num_timesteps, force=True)
 
     def emit(self, step, force=False):
@@ -227,9 +231,12 @@ def export_dashboard(args):
                       "episodes": len(episodes),
                       "meanEpisodeReward": sum(float(e["r"]) for e in recent) / len(recent) if recent else None,
                       "meanEpisodeLength": sum(float(e["l"]) for e in recent) / len(recent) if recent else None},
-        "history": history, "replay": record_replay(model, config["difficulty"], args.seed, "Sparad demomodell"),
+        "history": history, "replay": record_replay(model, config["difficulty"], args.seed, "Sparad demomodell",
+                                                     environment=config.get("environment")),
         "test": None,
     }
+    if config.get("environment"):
+        snapshot["run"]["environment"] = config["environment"]
     if args.evaluation:
         report = json.loads(Path(args.evaluation).read_text())
         snapshot["test"] = {"policies": [{"label": key, "episodes": value["episodes"],

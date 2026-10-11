@@ -57,9 +57,11 @@ function render(data, source) {
   $('#fatal-error').hidden = true;
   const last = data.history.at(-1), t = data.telemetry, r = data.run, progress = runProgress(data);
   text('#run-name', r.label);
-  text('#run-detail', `${r.algorithm} · ${r.numEnvs} miljöer · seed ${r.seed}`);
+  const environment = r.environment;
+  const mode = environment ? ` · ${environment.observations === 'pixels' ? 'Bildtolkning' : 'Speldata'} · ${environment.level === 'test' ? 'Fast testbana' : 'Genererade banor'} · ${environment.input_delay} bildrutor fördröjning` : '';
+  text('#run-detail', `${r.algorithm} · ${r.numEnvs} miljöer · seed ${r.seed}${mode}`);
   text('#metric-win', last ? percent(last.successRate) : '—');
-  text('#metric-win-note', last ? `${number(Math.round(last.successRate * last.episodes))} av ${last.episodes} valideringsbanor` : 'Inväntar validering');
+  text('#metric-win-note', last ? `${number(Math.round(last.successRate * last.episodes))} av ${last.episodes} ${environment?.level === 'test' ? 'försök på samma testbana' : 'valideringsbanor'}` : 'Inväntar validering');
   text('#metric-progress', last ? percent(last.meanProgress) : '—');
   text('#metric-steps', compact(t.step));
   text('#metric-steps-note', `${number(t.step)} av ${number(r.targetSteps)}`);

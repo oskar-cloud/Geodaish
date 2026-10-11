@@ -14,9 +14,9 @@ http.createServer(async (req, res) => {
   if (req.method !== 'GET') { res.writeHead(405); res.end(); return; }
   try {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    if (pathname === '/api/training') {
+    if (pathname === '/api/training' || pathname === '/api/windows') {
       try {
-        const data = await readFile(resolve(root, 'runs/live.json'));
+        const data = await readFile(resolve(root, pathname === '/api/windows' ? 'runs/windows-live.json' : 'runs/live.json'));
         res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(data);
       } catch {
         res.writeHead(404, { 'Content-Type': 'application/json' });

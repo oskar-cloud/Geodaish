@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="sv">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101418"><title>Geodaish — Geometry Dash live</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/windows.css"><script type="module" src="/windows.js"></script></head>
+<body class="windows-page"><main class="windows-shell">
+  <nav class="windows-nav"><a class="brand" href="/">geodaish<span class="brand-dot">.</span></a><a href="/">Träning & resultat ↗</a></nav>
+  <header class="page-heading"><div><div class="eyebrow">STEAM · WINDOWS · SKÄRMLÄSNING</div><h1>Geometry Dash live<span>.</span></h1><p>Följ vad agenten ser och när den håller hoppknappen.</p></div><span class="status-pill" id="live-status" role="status">VÄNTAR PÅ DATORN</span></header>
+  <p id="live-notice" class="source-notice">Ingen körning har anslutits. Starta Windows-adaptern på speldatorn.</p>
+  <div class="windows-grid">
+    <article class="panel"><div class="panel-header"><div><h2>Agentens synfält</h2><p id="frame-label">Upptäckta objekt från spelets skärmbilder</p></div><span class="outline-tag" id="live-mode">VÄNTAR</span></div>
+      <div class="windows-screen"><img id="live-image" alt="Senaste beskurna spelbild med detekterad kub och spikar" hidden><canvas id="live-scene" width="1000" height="480" aria-label="Upptäckta objekt i originalspelet"></canvas><p id="live-empty">Väntar på en tillförlitlig bild från Geometry Dash.</p></div>
+      <div class="replay-footer"><span><span class="key-display" id="live-key">SPACE</span><span id="live-action">Ingen styrning</span></span><span id="live-age">Ingen rapport</span></div>
+    </article>
+    <aside class="panel"><div class="panel-header"><div><h2>Windows-adaptern</h2><p id="live-model">Ingen modell ansluten</p></div></div>
+      <dl class="run-facts"><div><dt>Styrning</dt><dd id="live-armed">Avstängd</dd></div><div><dt>Behandlade bilder</dt><dd id="live-count">—</dd></div><div><dt>Tryck på hopp</dt><dd id="live-presses">—</dd></div><div><dt>Bildfångst</dt><dd id="live-capture">—</dd></div><div><dt>Bild → kommando</dt><dd id="live-pipeline">—</dd></div><div><dt>Körtid</dt><dd id="live-time">—</dd></div></dl>
+      <div class="run-insight"><p id="live-reason">Starta med förhandsvisning. Armera med F8 i spelet och stoppa med F9 eller den lokala STOP-knappen.</p></div>
+    </aside>
+  </div>
+  <article class="panel windows-setup"><h2>Koppla speldatorn</h2><p>Publicera repot på Vercel och koppla Upstash Redis samt <code>TRAINING_API_TOKEN</code>. Ange samma nyckel och webbplatsens adress på Windows-datorn enligt guiden.</p>
+    <pre><code>.\.venv\Scripts\python.exe -m geodaish windows run --profile runs/windows/profile.json --model models/demo-normal.zip --jump-key up --stream-frames</code></pre>
+    <p><a href="https://github.com/oskar-cloud/Geodaish/blob/main/docs/windows-adapter.md">Installation, kalibrering och Vercel →</a></p>
+    <p class="small-note">Rapporter uppdateras ungefär varje sekund och hämtas varannan sekund. Bildvisningen är ögonblicksbilder, inte 60 FPS-video. Utan <code>--stream-frames</code> visas bara upptäckta objekt. Spel och styrning körs på datorn; webbplatsen visar deras rapporter.</p>
+  </article>
+</main></body></html>

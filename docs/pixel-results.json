@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-11",
+  "scope": "One fixed Geodaish test course, not original Geometry Dash or generalization",
+  "baseline": {
+    "episodes": 1,
+    "environment": {
+      "observations": "pixels",
+      "level": "test",
+      "input_delay": 0,
+      "physics": {}
+    },
+    "success_rate": 1.0,
+    "mean_progress": 1.0
+  },
+  "calibration": {
+    "source": "geodaish-rendered-rgb",
+    "measurements": {
+      "peak_height": 1.9558823529411764,
+      "airtime_seconds": 0.6666666666666666,
+      "command_to_first_motion_ms": 50.0,
+      "input_delay_frames": 2,
+      "capture_and_detection_mean_ms": 20.84667708345478
+    },
+    "training": {
+      "physics": {
+        "speed": 7.058823529411766,
+        "gravity": 35.98059807377936,
+        "jump_velocity": 11.99198721546376
+      },
+      "input_delay": 2
+    }
+  },
+  "adaptation": {
+    "additional_training_steps": 4096,
+    "seconds": 102.18036439999923,
+    "validation": {
+      "episodes": 1,
+      "environment": {
+        "observations": "pixels",
+        "level": "test",
+        "input_delay": 2,
+        "physics": {
+          "speed": 7.058823529411766,
+          "gravity": 35.98059807377936,
+          "jump_velocity": 11.99198721546376
+        }
+      },
+      "success_rate": 0.0,
+      "mean_progress": 0.3951968384252914
+    }
+  },
+  "checks": {
+    "python_tests_passed": 38,
+    "web_tests_passed": 9,
+    "dashboard_build": "passed"
+  }
+}

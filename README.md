@@ -19,9 +19,25 @@ npm run dev
 
 Öppna `http://127.0.0.1:5173`. Kör `geodaish train` i en annan terminal för att
 följa ett nytt pass lokalt. För liveuppdateringar på Vercel kopplar du Upstash
-Redis och en rapporteringsnyckel. Träningen körs på din Mac.
+Redis och en rapporteringsnyckel. Träningen körs på din dator.
 
 **[Fullständig guide för Vercel och livekoppling →](docs/dashboard.md)**
+
+## Testa Steam-spelet på Windows
+
+Windows-adaptern kan nu läsa spelets bilder, visa detekterad kub och spikar,
+köra PPO via hoppknappen och stoppa med **F9** eller **STOP**. På den testade
+datorn fungerade **uppåtpilen**, så använd `--jump-key up`.
+
+De första enskilda spikarna i Stereo Madness har testats. Adaptern stannar vid
+block/plattformar; **hela originalbanan är inte löst**. Ett uppmätt hopp kan
+exporteras till simulatorns träningsprofil för fortsatt PPO-träning.
+
+**[Windows, kalibrering, träning och live på Vercel →](docs/windows-adapter.md)**
+
+Dashboardens **Geometry Dash live** (`/windows.html`) visar verkliga rapporter
+från Windows-datorn, med valbara beskurna spelbilder. Vercel behöver Redis och
+rapporteringsnyckel för live; själva spelet körs på datorn.
 
 ## Varför börja med en egen miljö?
 
@@ -34,7 +50,7 @@ Redis och en rapporteringsnyckel. Träningen körs på din Mac.
 | Överföring till originalet | Kräver ytterligare arbete | Träning sker direkt i målmiljön |
 
 **Rekommendation:** börja här. Det gör det lättare att förstå RL och testa idéer
-billigt. Modellen kan **inte** spela riktiga Geometry Dash ännu. Fysiken är
+billigt. Windows-adaptern har bara verifierats på originalets enkla startsträcka. Fysiken är
 förenklad, och exakta speldata är enklare input än skärmbilder. Ingen automatisk
 överföring utlovas.
 
@@ -174,6 +190,18 @@ kan användas av andra algoritmer.
 
 ## Vägen till riktiga Geometry Dash
 
+**Första bildstyrda testet finns nu:** `--observations pixels --level test`
+låter den sparade modellen styra en fast bana med fyra spikar utifrån renderade
+RGB-bilder. Gula ramar visar detekterade objekt. `geodaish calibrate` mäter hoppet
+och en simulerad inmatningsfördröjning; profilen kan användas under träning.
+
+```bash
+geodaish watch --model models/demo-normal.zip --observations pixels --level test
+geodaish calibrate --input-delay 2 --output runs/pixel-calibration.json
+```
+
+**[Kör bildtestet, mät fördröjningen och anpassa träningen →](docs/pixel-control.md)**
+
 1. Få reproducerbara RL-resultat i denna miljö och prova flera träningsseeds.
 2. Mät och matcha originalets hopphöjd, hastighet, kollisioner och knappbeteende.
 3. Lägg till relevanta banmekaniker stegvis och kontrollera att banorna går att klara.
@@ -184,8 +212,9 @@ kan användas av andra algoritmer.
    sedan och finjustera mot en enkel bana i originalspelet.
 
 `DashEnv` är skild från `Renderer` så att träning och visning inte behöver dela
-implementation med en framtida originalspelsadapter. Någon sådan adapter finns
-inte i denna version. Egen grafik används; inga Geometry Dash-filer ingår.
+implementation med en framtida originalspelsadapter. Bildtolkningen i denna
+version stöder den egna testgrafiken; skärmfångst och tangentstyrning av originalet
+återstår. Egen grafik används; inga Geometry Dash-filer ingår.
 
 ## Källor
 

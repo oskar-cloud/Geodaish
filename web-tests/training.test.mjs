@@ -19,6 +19,21 @@ test('a real Python-exported report satisfies the API contract', () => {
   assert.equal(typeof data.replay.result.success, 'boolean');
 });
 
+test('pixel training settings survive upload without arbitrary profile fields', () => {
+  const data = structuredClone(demo);
+  data.run.environment = { observations: 'pixels', level: 'test', input_delay: 2,
+    physics: { speed: 7, gravity: 36, jump_velocity: 12 }, localPath: 'private' };
+  const clean = validateSnapshot(data).run.environment;
+  assert.equal(clean.observations, 'pixels');
+  assert.equal(clean.input_delay, 2);
+  assert.equal(clean.localPath, undefined);
+  data.run.environment.input_delay = -1;
+  assert.throws(() => validateSnapshot(data), /Invalid environment/);
+  data.run.environment.input_delay = 2;
+  data.run.environment.physics.gravity = NaN;
+  assert.throws(() => validateSnapshot(data), /Invalid environment/);
+});
+
 test('unauthenticated upload is rejected before storage access', async () => {
   const result = await handleTraining({ ...post, authorization: 'Bearer wrong', fetcher: () => assert.fail('storage called') });
   assert.equal(result.status, 401);

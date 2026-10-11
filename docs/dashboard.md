@@ -5,7 +5,7 @@ avslutade försök, tidsåtgång och träningshastighet rapporteras av `Training
 Canvas-spelaren återger sparade positioner och handlingar från `DashEnv`; den kör
 inte en separat JavaScript-fysik eller en handkodad spelare.
 
-Python-träningen körs på din Mac. Vercel serverar webbgränssnittet och tar emot
+Python-träningen körs på din dator. Vercel serverar webbgränssnittet och tar emot
 rapporter. Webbplatsen startar inga träningsjobb på Vercel.
 
 ## Se sidan lokalt
@@ -158,3 +158,11 @@ Vercel/Upstash-projekt måste konfigureras innan en livekoppling kan verifieras 
 
 Referenser: [Vercels Node.js-funktioner](https://vercel.com/docs/functions/runtimes/node-js)
 och [Upstash Redis REST API](https://upstash.com/docs/redis/features/restapi).
+
+## Geometry Dash live från Windows
+
+Den separata sidan `/windows.html` visar Windows-adapterns verkliga detektioner,
+hoppstatus och valbara beskurna spelbilder. Den använder `/api/windows` och en
+separat Redis-nyckel med samma serverinställningar. Se
+[Windows-guiden](windows-adapter.md#publicera-dashboarden-på-vercel) för kommandon,
+stoppfunktion och vad som faktiskt har testats.

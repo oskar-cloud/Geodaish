@@ -10,7 +10,8 @@ import time
 
 import numpy as np
 
-from geodaish.env import DashEnv, DIFFICULTIES, heuristic_action
+from geodaish.env import DIFFICULTIES, heuristic_action
+from geodaish.vision import make_env
 
 
 def positive_int(value):
@@ -37,16 +38,36 @@ def policy_action(policy, obs, rng):
     return int(policy.predict(obs, deterministic=True)[0])
 
 
-def evaluate(policy, *, difficulty="normal", episodes=30, seed=20000):
-    env = DashEnv(difficulty=difficulty)
+def environment_options(args):
+    profile = {}
+    if getattr(args, "physics_profile", None):
+        content = json.loads(Path(args.physics_profile).read_text(encoding="utf-8"))
+        if (not isinstance(content, dict) or not isinstance(content.get("training"), dict)
+                or not {"physics", "input_delay"} <= content["training"].keys()):
+            raise ValueError("Calibration JSON must contain training.physics and training.input_delay")
+        profile = content["training"]
+    return {"observations": getattr(args, "observations", "state"),
+            "level": getattr(args, "level", "generated"),
+            "input_delay": args.input_delay if getattr(args, "input_delay", None) is not None else profile.get("input_delay", 0),
+            "physics": profile.get("physics", {})}
+
+
+def evaluate(policy, *, difficulty="normal", episodes=30, seed=20000, environment=None):
+    env = make_env(difficulty=difficulty, **(environment or {}))
     rng = np.random.default_rng(seed)
     results = []
+    pipeline_times = []
     try:
         for episode in range(episodes):
             obs, info = env.reset(seed=seed + episode)
             total = 0.0
             while True:
-                obs, reward, terminated, truncated, info = env.step(policy_action(policy, obs, rng))
+                started = time.perf_counter()
+                action = policy_action(policy, obs, rng)
+                decision_ms = (time.perf_counter() - started) * 1000
+                if hasattr(env, "capture_ms"):
+                    pipeline_times.append(env.capture_ms + decision_ms)
+                obs, reward, terminated, truncated, info = env.step(action)
                 total += reward
                 if terminated or truncated:
                     break
@@ -57,6 +78,9 @@ def evaluate(policy, *, difficulty="normal", episodes=30, seed=20000):
         "episodes": episodes,
         "difficulty": difficulty,
         "first_seed": seed,
+        "distinct_levels": 1 if (environment or {}).get("level") == "test" else episodes,
+        "environment": environment or {"observations": "state", "level": "generated", "input_delay": 0, "physics": {}},
+        "capture_detection_policy_mean_ms": float(np.mean(pipeline_times)) if pipeline_times else None,
         "success_rate": float(np.mean([r["is_success"] for r in results])),
         "mean_progress": float(np.mean([r["progress"] for r in results])),
         "mean_reward": float(np.mean([r["reward"] for r in results])),
@@ -82,6 +106,8 @@ def train(args):
     from stable_baselines3.common.logger import configure
 
     torch.set_num_threads(1)
+    args.environment = environment_options(args)
+    validation_episodes = 1 if args.environment["level"] == "test" else 10
     output = Path(args.output or f"runs/{datetime.now():%Y%m%d-%H%M%S}")
     if output.exists() and any(output.iterdir()):
         raise ValueError(f"{output} is not empty. Choose a new --output directory.")
@@ -101,7 +127,8 @@ def train(args):
             if self.num_timesteps - self.last_eval < args.eval_every:
                 return True
             self.last_eval = self.num_timesteps
-            metrics = evaluate(self.model, difficulty=args.difficulty, episodes=10, seed=10000)
+            metrics = evaluate(self.model, difficulty=args.difficulty, episodes=validation_episodes, seed=10000,
+                               environment=args.environment)
             row = {"timesteps": self.num_timesteps, **{k: metrics[k] for k in
                    ("success_rate", "mean_progress", "mean_reward")}}
             path = output / "validation.csv"
@@ -120,8 +147,8 @@ def train(args):
             reporter.validation(self.model, metrics)
             return True
 
-    env = make_vec_env(DashEnv, n_envs=args.envs, seed=args.seed,
-                       env_kwargs={"difficulty": args.difficulty},
+    env = make_vec_env(make_env, n_envs=args.envs, seed=args.seed,
+                       env_kwargs={"difficulty": args.difficulty, **args.environment},
                        monitor_dir=str(output / "episodes"))
     model = None
     reporter = None
@@ -142,6 +169,7 @@ def train(args):
         print("Ctrl+C saves the current model. Timesteps round up to full rollouts.", flush=True)
         callback = ValidationCallback()
         initial_steps = model.num_timesteps
+        callback.last_eval = initial_steps
         reporter = TrainingReporter(args, output, initial_steps)
         print(f"Dashboard report: {args.dashboard_file}", flush=True)
         try:
@@ -151,7 +179,8 @@ def train(args):
             interrupted = True
             print("Interrupted; saving current model.", flush=True)
         model.save(output / "final")
-        final_validation = evaluate(model, difficulty=args.difficulty, episodes=10, seed=10000)
+        final_validation = evaluate(model, difficulty=args.difficulty, episodes=validation_episodes, seed=10000,
+                                    environment=args.environment)
         if final_validation["mean_reward"] > callback.best:
             model.save(output / "best")
         reporter.validation(model, final_validation)
@@ -163,8 +192,12 @@ def train(args):
                    "validation": final_validation}
         (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
         print(f"Saved {output / 'best.zip'} and final.zip in {elapsed:.1f}s", flush=True)
-        print(f"Next: geodaish evaluate --model '{output / 'best.zip'}' --difficulty {args.difficulty}")
-        print(f"Watch: geodaish watch --model '{output / 'best.zip'}' --difficulty {args.difficulty}")
+        flags = (f"--difficulty {args.difficulty} --observations {args.environment['observations']}"
+                 f" --level {args.environment['level']} --input-delay {args.environment['input_delay']}")
+        if args.physics_profile:
+            flags += f" --physics-profile '{args.physics_profile}'"
+        print(f"Next: geodaish evaluate --model '{output / 'best.zip'}' {flags}")
+        print(f"Watch: geodaish watch --model '{output / 'best.zip'}' {flags}")
     finally:
         if reporter is not None and not finished:
             reporter.finish(model.num_timesteps, "failed")
@@ -177,7 +210,8 @@ def evaluate_command(args):
         policies["PPO (learned)"] = load_model(args.model)
     report = {}
     for name, policy in policies.items():
-        metrics = evaluate(policy, difficulty=args.difficulty, episodes=args.episodes, seed=args.seed)
+        metrics = evaluate(policy, difficulty=args.difficulty, episodes=args.episodes, seed=args.seed,
+                           environment=environment_options(args))
         report[name] = metrics
         print(f"{name:25s} wins {metrics['success_rate']:6.1%} | "
               f"progress {metrics['mean_progress']:6.1%} | reward {metrics['mean_reward']:7.2f}")
@@ -194,7 +228,7 @@ def play(args):
     policy = load_model(args.model) if getattr(args, "model", None) else None
     if args.command == "watch" and policy is None:
         policy = args.policy
-    env = DashEnv(render_mode="human", difficulty=args.difficulty)
+    env = make_env(render_mode="human", difficulty=args.difficulty, **environment_options(args))
     rng = np.random.default_rng(args.seed)
     seed = args.seed
     obs, _ = env.reset(seed=seed)
@@ -211,9 +245,9 @@ def play(args):
                     elif event.key == pygame.K_r:
                         obs, _ = env.reset(seed=seed)
                         finished_at = None
-            if not running or env.closed:
+            if not running or env.unwrapped.closed:
                 break
-            if env._done:
+            if env.unwrapped._done:
                 env.render()
                 if policy is not None and time.monotonic() - finished_at > 1.0:
                     seed += 1
@@ -230,7 +264,7 @@ def play(args):
 
 
 def benchmark(args):
-    env = DashEnv(difficulty=args.difficulty)
+    env = make_env(difficulty=args.difficulty, **environment_options(args))
     obs, _ = env.reset(seed=args.seed)
     started = time.perf_counter()
     for _ in range(args.steps):
@@ -243,13 +277,33 @@ def benchmark(args):
     print("Simulation only; PPO training also spends time updating the network.")
 
 
+def calibrate_command(args):
+    from geodaish.calibration import measure_jump
+    report = measure_jump(input_delay=args.input_delay or 0, difficulty=args.difficulty)
+    path = Path(args.output)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    m = report["measurements"]
+    print(f"Pixel measurement in the simulator: height {m['peak_height']:.3f}, airtime {m['airtime_seconds']:.3f}s")
+    print(f"Input queue: {m['input_delay_frames']} frames; command to first visible motion {m['command_to_first_motion_ms']:.1f}ms")
+    print(f"Measured profile: {path}. Use --physics-profile {path} for training/evaluation/watch.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Geodaish — Geometry Dash-inspired RL lab")
     sub = parser.add_subparsers(dest="command", required=True)
-    for command in ("train", "evaluate", "play", "watch", "benchmark", "export-dashboard"):
+    from geodaish.windows.cli import register
+    register(sub)
+    for command in ("train", "evaluate", "play", "watch", "benchmark", "export-dashboard", "calibrate"):
         p = sub.add_parser(command)
         p.add_argument("--difficulty", choices=DIFFICULTIES, default="normal")
         p.add_argument("--seed", type=int, default=20000 if command in ("evaluate", "export-dashboard") else 42)
+        if command != "export-dashboard":
+            p.add_argument("--input-delay", type=int, help="Jump press/release queue in 60 Hz frames (0-30)")
+        if command not in ("export-dashboard", "calibrate"):
+            p.add_argument("--observations", choices=["state", "pixels"], default="state")
+            p.add_argument("--level", choices=["generated", "test"], default="generated")
+            p.add_argument("--physics-profile", help="JSON produced by calibrate; applies physics and input delay")
         if command == "train":
             p.add_argument("--steps", type=positive_int, default=2000000)
             p.add_argument("--envs", type=positive_int, default=4)
@@ -274,6 +328,9 @@ def main():
         elif command == "benchmark":
             p.add_argument("--steps", type=positive_int, default=100000)
             p.set_defaults(func=benchmark)
+        elif command == "calibrate":
+            p.add_argument("--output", default="runs/calibration.json")
+            p.set_defaults(func=calibrate_command)
         else:
             from geodaish.dashboard import export_dashboard
             p.add_argument("--run", required=True, help="Completed run directory with original CSV logs")
@@ -282,9 +339,9 @@ def main():
             p.add_argument("--output", default="web/data/demo.json")
             p.set_defaults(func=export_dashboard)
     args = parser.parse_args()
-    if args.seed < 0:
+    if getattr(args, "seed", 0) < 0:
         parser.error("--seed must be nonnegative")
     try:
         args.func(args)
-    except (ValueError, FileNotFoundError) as exc:
+    except (ValueError, FileNotFoundError, RuntimeError) as exc:
         parser.exit(2, f"Error: {exc}\n")
